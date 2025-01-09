@@ -1,0 +1,10 @@
+<div class="mt-4 p-4 bg-gray-100 rounded-lg">
+  <h3 class="text-xl font-semibold">Résultats de l'Optimisation</h3>
+
+  <p class="mt-2"><strong>Quantité Optimale à Commander :</strong> {{ reportData.optimalOrder }}</p>
+  <p><strong>Coût Moyen à Long Terme :</strong> {{ reportData.longTermCost | number:'1.2-2' }} €</p>
+
+  <div class="mt-4">
+    <p>La commande optimale minimise les coûts de stockage et de rupture de stock en tenant compte de la demande moyenne et du facteur d'actualisation.</p>
+  </div>
+</div>

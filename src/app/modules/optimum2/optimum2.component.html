@@ -1,0 +1,83 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">OPTIMA 2</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans OPTIMA 2</h2>
+      <p class="text-gray-600 mt-2">
+        Contrairement au modèle OPTIMA 1 où la demande est fixe et connue, ici la demande est probabiliste. Cela signifie qu'elle varie en fonction de probabilités définies par des distributions discrètes (par exemple, un nombre spécifique d'unités) ou continues (par exemple, une variation fluide de la demande).
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          L'objectif est de minimiser les coûts probables liés aux stocks en tenant compte des trois éléments principaux :
+        </p>
+        <ul class="text-sm list-disc pl-5 space-y-2 text-gray-700">
+          <li><strong>Coût de stockage :</strong> Dépend du nombre d'unités en stock.</li>
+          <li><strong>Coût de perte de vente:</strong> Lié au manque à gagner lorsqu'une commande ne peut pas être satisfaite.</li>
+          <li><strong>Coût de commande:</strong> Frais fixes liés à chaque réapprovisionnement.</li>
+        </ul>
+      </div>
+
+      <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Calcul de la fréquence optimale de commande</h2>
+
+        <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+          <div class="mb-4">
+            <label for="storageCost">Coût de stockage (C1) :</label>
+            <input id="storageCost" type="number" formControlName="storageCost" class="border p-2 w-full rounded" />
+          </div>
+
+          <div class="mb-4">
+            <label for="orderCost">Coût de commande (C3) :</label>
+            <input id="orderCost" type="number" formControlName="orderCost" class="border p-2 w-full rounded" />
+          </div>
+
+          <div class="mb-4">
+            <label for="shortageCost">Coût de perte de vente (C2) :</label>
+            <input id="shortageCost" type="number" formControlName="shortageCost" class="border p-2 w-full rounded" />
+          </div>
+
+          <div class="mb-4">
+            <label>Demande quotidienne :</label>
+            <div *ngFor="let control of demandControls.controls; let i = index" [formGroup]="castToFormGroup(control)" class="flex items-center space-x-4">
+              <input type="number" formControlName="demand" class="border p-2 w-full rounded" />
+              <button type="button" (click)="removeDemand(i)" class="text-red-500">X</button>
+            </div>
+            <button type="button" (click)="addDemand()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">+ Ajouter</button>
+          </div>
+
+
+
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Calculer</button>
+        </form>
+
+
+      </div>
+
+
+
+
+    </div>
+
+    <div *ngIf="reportData" class="mt-8">
+      <app-report2 [reportData]="reportData"></app-report2>
+    </div>
+  </main>
+
+</div>

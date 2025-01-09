@@ -1,0 +1,102 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">Optima 5</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans Optima 5</h2>
+      <p class="text-gray-600 mt-2">
+        Le modèle Planifie la production mensuelle pour minimiser les coûts de variation de cadence tout en satisfaisant la demande cumulée.
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          L'objectif d'OPTIMA V est de minimiser les coûts liés aux variations de production tout en garantissant :
+
+        </p>
+        <ul class="text-sm mt-2 list-disc pl-5 space-y-2 text-gray-700">
+          <li>Une capacité de stockage adéquate.</li>
+          <li>Une couverture suffisante des besoins du marché.</li>
+          <li>Une optimisation des rythmes de production d'un mois à l'autre.</li>
+        </ul>
+      </div>
+
+      <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Prévision Mensuelle - Optima 5</h2>
+
+        <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+          <!-- Champs des paramètres généraux -->
+          <div class="grid grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="initialStock" class="block text-sm font-medium text-gray-700">Stock initial :</label>
+              <input id="initialStock" formControlName="initialStock" type="number"
+                     class="mt-1 block w-full border p-2 rounded" />
+            </div>
+
+            <div>
+              <label for="productionCapacity" class="block text-sm font-medium text-gray-700">Capacité de production :</label>
+              <input id="productionCapacity" formControlName="productionCapacity" type="number"
+                     class="mt-1 block w-full border p-2 rounded" />
+            </div>
+
+            <div>
+              <label for="adjustmentUpCost" class="block text-sm font-medium text-gray-700">Coût d'augmentation (€/unité) :</label>
+              <input id="adjustmentUpCost" formControlName="adjustmentUpCost" type="number"
+                     class="mt-1 block w-full border p-2 rounded" />
+            </div>
+
+            <div>
+              <label for="adjustmentDownCost" class="block text-sm font-medium text-gray-700">Coût de diminution (€/unité) :</label>
+              <input id="adjustmentDownCost" formControlName="adjustmentDownCost" type="number"
+                     class="mt-1 block w-full border p-2 rounded" />
+            </div>
+
+            <div class="col-span-2">
+              <label for="maxStorage" class="block text-sm font-medium text-gray-700">Capacité maximale de stockage :</label>
+              <input id="maxStorage" formControlName="maxStorage" type="number"
+                     class="mt-1 block w-full border p-2 rounded" />
+            </div>
+          </div>
+
+          <!-- Champs pour les prévisions mensuelles -->
+          <div *ngFor="let control of demandControls.controls; let i = index" [formGroup]="castToFormGroup(control)"  class="grid grid-cols-2 gap-6 mb-4">
+          <input type="text" formControlName="month" placeholder="Mois (ex : Janvier)" class="border p-2 rounded w-full" />
+          <input type="number" formControlName="demand" placeholder="Prévision (unités)" class="border p-2 rounded w-full" />
+        </div>
+
+
+
+          <div class="mt-4">
+            <button type="button" (click)="addMonth()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">
+              Ajouter un Mois
+            </button>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+              Calculer
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+
+
+    </div>
+
+    <app-report5 *ngIf="reportData" [reportData]="reportData" />
+  </main>
+
+</div>

@@ -1,0 +1,52 @@
+<div *ngIf="reportData" class="report-container w-auto mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-2xl font-bold mb-4">Rapport d'Analyse des Résultats</h2>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Introduction</h3>
+    <p>{{ reportData.introduction }}</p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Données Utilisées</h3>
+    <ul>
+      <li>Demande : {{ reportData.data.demand }} unités</li>
+      <li>Coût de production : {{ reportData.data.productionCost }} lires</li>
+      <li>Coût de stockage : {{ reportData.data.storageCost }} lires/an</li>
+      <li>Capacité journalière : {{ reportData.data.dailyCapacity }} unités</li>
+    </ul>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Résultats Obtenus</h3>
+    <p><strong>Fréquence optimale :</strong> {{ reportData.results.frequency | number }} roulements/cycle</p>
+    <p><strong>Intervalle optimal :</strong> {{ reportData.results.interval | number: '1.2-2' }} jour{{reportData.results.interval > 1? "s" : ""}}</p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Impact des données</h3>
+    <p>Si la capacité de production journalière (K) est significativement plus grande que la demande quotidienne (R) :</p>
+    <h4>Grand écart (K ≫ R) :</h4>
+    <p>L'intervalle optimal augmente, indiquant que la production peut être espacée sur de longues périodes.
+      La fréquence de production diminue, réduisant ainsi les coûts liés au stockage excessif.
+      Rapport : L'accent sera mis sur la réduction des cycles pour minimiser les coûts.</p>
+
+     <h4> Écart réduit (K ≈ R) :</h4>
+      <p>L'intervalle optimal diminue, indiquant une production quasi continue pour répondre à la demande.
+      La fréquence de production augmente, car la capacité de production est à peine suffisante pour couvrir la demande quotidienne.
+      Rapport : L'accent sera mis sur l'optimisation des cycles de production fréquents.</p>
+    <h4>Capacité inférieure (K < R) :</h4>
+      <p>L'algorithme pourrait signaler des résultats non viables (division par zéro), nécessitant un ajustement des paramètres de production.
+      Rapport : Une alerte sera déclenchée pour indiquer que la production ne peut pas satisfaire la demande.
+    </p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Interprétation des Résultats</h3>
+    <p>{{ reportData.analysis }}</p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Conclusion</h3>
+    <p>{{ reportData.conclusion }}</p>
+  </section>
+</div>

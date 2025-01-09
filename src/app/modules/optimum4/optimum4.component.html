@@ -1,0 +1,103 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">Optima 4</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans Optima 4</h2>
+      <p class="text-gray-600 mt-2">
+        Le modèle vise à équilibrer la disponibilité des marchandises et la maîtrise des coûts, en tenant compte des aléas liés aux retards et aux pénuries, pour garantir une gestion optimale du stockage et de la chaîne d'approvisionnement.
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          Ce modèle approfondit l'étude des coûts de stockage, en tenant compte des coûts fixes, variables, et des situations d'arriérés ou retards de livraison.
+        </p>
+        <ul class="text-sm mt-2 list-disc pl-5 space-y-2 text-gray-700">
+          <li>Le coût fixe (𝜋) : Indépendant de la quantité stockée, lié à la gestion de l'entrepôt (électricité, usure, surveillance, etc.)</li>
+          <li>La production est déclenchée lorsque le stock atteint un niveau minimum.</li>
+          <li>L'optimisation dépend d'une base de données complète sur les coûts et les délais et une classification des produits (certains produits ont un impact plus important sur la production que d'autres).</li>
+        </ul>
+      </div>
+      <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Calcul du Stock Optimal - Optima 4</h2>
+
+        <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()" class="grid grid-cols-2 gap-6">
+          <!-- Stock Initial -->
+          <div>
+            <label for="initialStock" class="block text-sm font-medium text-gray-700">Stock initial :</label>
+            <input id="initialStock" formControlName="initialStock" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Coût de stockage unitaire -->
+          <div>
+            <label for="storageCost" class="block text-sm font-medium text-gray-700">Coût unitaire de stockage (€) :</label>
+            <input id="storageCost" formControlName="storageCost" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Coût fixe de stockage -->
+          <div>
+            <label for="fixedStorageCost" class="block text-sm font-medium text-gray-700">Coût fixe de stockage (π) :</label>
+            <input id="fixedStorageCost" formControlName="fixedStorageCost" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Coût des arriérés -->
+          <div>
+            <label for="backlogCost" class="block text-sm font-medium text-gray-700">Coût des arriérés (β) :</label>
+            <input id="backlogCost" formControlName="backlogCost" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Pénalité de retard -->
+          <div>
+            <label for="delayPenalty" class="block text-sm font-medium text-gray-700">Pénalité de retard (Ɛ) :</label>
+            <input id="delayPenalty" formControlName="delayPenalty" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Demande Hebdomadaire -->
+          <div>
+            <label for="demand" class="block text-sm font-medium text-gray-700">Demande hebdomadaire :</label>
+            <input id="demand" formControlName="demand" type="number"
+                   class="mt-1 block w-full border p-2 rounded" />
+          </div>
+
+          <!-- Bouton de soumission aligné en bas -->
+          <div class="col-span-2 flex justify-end">
+            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+              Calculer
+            </button>
+          </div>
+        </form>
+
+        <div *ngIf="reportData" class="mt-6">
+          <h3>Résultats :</h3>
+          <p>Stock Optimal : {{ reportData.optimalStock }} unités</p>
+          <p>Coût Total : {{ reportData.totalStorageCost | number: '1.2-2' }} €</p>
+          <p>Arriérés : {{ reportData.backlogUnits }} unités</p>
+          <p>Coût des Arriérés : {{ reportData.backlogCost | number: '1.2-2' }} €</p>
+        </div>
+      </div>
+
+    </div>
+    <app-report4 [reportData]="reportData" ></app-report4>
+  </main>
+
+</div>

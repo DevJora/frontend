@@ -1,0 +1,25 @@
+<div *ngIf="reportData" class="p-6 mt-5 bg-white shadow-md rounded-md">
+  <h2 class="text-2xl font-bold">Rapport de Transport - Optima 6</h2>
+
+  <p><strong>Coût Total :</strong> {{ reportData.totalCost }} €</p>
+
+  <section class="mt-4">
+    <h3 class="text-lg font-semibold">Plan de Transport :</h3>
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+      <thead>
+      <tr>
+        <th class="border border-gray-300 px-4 py-2">Usine</th>
+        <th class="border border-gray-300 px-4 py-2">
+
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of reportData.transportPlan; let i = index">
+        <td class="border border-gray-300 px-4 py-2">Usine {{ i + 1 }}</td>
+        <td *ngFor="let transport of row" class="border border-gray-300 px-4 py-2">{{ transport }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

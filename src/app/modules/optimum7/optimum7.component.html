@@ -1,0 +1,106 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">OPTIMA 7</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans OPTIMA 7</h2>
+      <p class="text-gray-600 mt-2">
+        Ce rapport présente les résultats obtenus par l'algorithme Optima 7, visant à optimiser la séquence de production sur plusieurs machines. L'objectif principal est de réduire le temps total de traitement en minimisant les goulets d'étranglement.
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectifs</h3>
+        <ul class="text-sm text-gray-600 mt-2">
+          <li><strong>Réduction des goulets d'étranglement :</strong>
+          L'algorithme cherche à identifier et à limiter les points de congestion (ex : machine B) où certaines pièces ralentissent le flux global de production.</li>
+          <li><strong>Maximisation de l'efficacité :
+
+          </strong>En priorisant les pièces ayant des temps de traitement plus courts sur certaines machines (Machine A), l'algorithme optimise l'ordre de passage des pièces pour éviter des temps morts.</li>
+          <li><strong>Optimisation dynamique :</strong>
+            L'algorithme adapte la séquence en fonction des données fournies par l'utilisateur, permettant d'ajuster en temps réel les priorités de production.</li>
+          <li><strong> Adaptabilité aux changements :</strong>
+
+            Il permet de modifier les temps de traitement ou d'ajouter des pièces/machines pour recalculer automatiquement la meilleure séquence.</li>
+
+        </ul>
+        Pourquoi est-ce Important ?<br>
+        Amélioration de la productivité en réduisant les temps d'attente.
+        Optimisation des ressources en minimisant le temps d'utilisation des machines.
+        Gain de temps et réduction des coûts de production.
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Importance des niveaux de stocks</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          Bien que des stocks élevés réduisent les coûts unitaires et assurent une disponibilité rapide des produits, ils entraînent également des coûts (espace de stockage, détérioration, capital immobilisé, etc.).
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          Trouver un équilibre entre les économies réalisées grâce à une production en grandes séries et les coûts liés aux stocks.
+        </p>
+        <p class="text-sm text-gray-600 mt-2">Le modèle fonctionne en remplissant ces conditions: </p>
+        <ul class="text-sm list-disc pl-5 space-y-2 text-gray-700">
+          <li>La demande (R) est constante et connue.</li>
+          <li>La production se fait par cycles réguliers.</li>
+          <li>Les stocks tombent à zéro avant le démarrage du cycle suivant.</li>
+          <li>Les coûts de stockage (C1) et de préparation (C3) sont constants.</li>
+        </ul>
+      </div>
+
+      <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Séquence de Production - Optima 7</h2>
+
+        <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+          <div formArrayName="processTimes">
+            <div *ngFor="let row of processTimes.controls; let i = index" [formGroupName]="i" class="mb-4">
+              <label class="block text-lg font-medium">Temps de traitement pour la pièce {{ i + 1 }}</label>
+              <div class="flex space-x-4">
+                <input type="number" formControlName="machineA" placeholder="Machine A" class="border p-2 rounded w-1/3">
+                <input type="number" formControlName="machineB" placeholder="Machine B" class="border p-2 rounded w-1/3">
+              </div>
+            </div>
+          </div>
+
+          <button type="button" (click)="addRow()" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Ajouter une pièce
+          </button>
+
+          <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded mt-6">
+            Calculer
+          </button>
+        </form>
+
+        <!-- Affichage des résultats -->
+        <div *ngIf="reportData" class="mt-8">
+          <h3 class="text-xl font-semibold">Résultats :</h3>
+          <p><strong>Séquence optimale :</strong> {{ reportData.optimalSequence.join(' - ') }}</p>
+          <p><strong>Temps total :</strong> {{ reportData.totalProcessingTime }} heures</p>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- Card 4 -->
+    <app-report7 *ngIf="reportData" [reportData]="reportData" />
+  </main>
+
+</div>

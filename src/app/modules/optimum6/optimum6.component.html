@@ -1,0 +1,89 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">Optima 6</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans Optima 6</h2>
+      <p class="text-gray-600 mt-2">
+        OPTIMA 6 traite des problèmes de transport et de distribution optimale, qui sont des problèmes classiques de programmation linéaire visant à minimiser les coûts d'expédition entre des usines et des entrepôts tout en respectant les contraintes de demande et de disponibilité.
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          L'objectif est:
+        </p>
+        <ul class="text-sm mt-2 list-disc pl-5 space-y-2 text-gray-700">
+          <li>d'optimiser la distribution des produits entre plusieurs origines (usines) et destinations (entrepôts) pour minimiser les coûts de transport, tout en respectant les capacités d'approvisionnement et les besoins des destinations.</li>
+            <li>de fournir une solution applicable à divers problèmes de gestion, comme la planification de production et le stockage, en utilisant un modèle mathématique.</li>
+        </ul>
+      </div>
+
+      <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Problème de Transport - Optima 6</h2>
+
+        <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+          <!-- Capacités de production -->
+          <div class="mb-6">
+            <label class="block text-lg font-medium">Capacité de Production (par usine) :</label>
+            <div *ngFor="let control of productionControls.controls; let i = index" class="flex space-x-4 mb-2">
+              <input type="number" [formControlName]="i" class="border p-2 rounded w-full"
+                     placeholder="Capacité pour l'usine {{ i + 1 }}">
+            </div>
+            <button type="button" (click)="addProduction()" class="bg-blue-500 text-white px-4 py-2 rounded">Ajouter Usine</button>
+          </div>
+
+          <!-- Demande par entrepôt -->
+          <div class="mb-6">
+            <label class="block text-lg font-medium">Demande (par entrepôt) :</label>
+            <div *ngFor="let control of demandControls.controls; let j = index" class="flex space-x-4 mb-2">
+              <input type="number" [formControlName]="j" class="border p-2 rounded w-full"
+                     placeholder="Demande pour l'entrepôt {{ j + 1 }}">
+            </div>
+            <button type="button" (click)="addDemand()" class="bg-blue-500 text-white px-4 py-2 rounded">Ajouter Entrepôt</button>
+          </div>
+
+          <!-- Matrice des coûts de transport -->
+          <div class="mb-6">
+            <label class="block text-lg font-medium">Coûts de Transport (€/unité) :</label>
+            <div formArrayName="transportCost">
+              <div *ngFor="let row of transportCost.controls; let i = index" [formGroupName]="i" class="mb-2">
+                <div *ngFor="let controlName of getControlKeys(row); let j = index" class="inline-block">
+                  <input type="number"
+                         [formControlName]="controlName"
+                         class="border p-2 rounded w-24"
+                         placeholder="Usine {{ i + 1 }} → Entrepôt {{ j + 1 }}">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded">
+            Calculer
+          </button>
+        </form>
+
+        <!-- Affichage des résultats -->
+        <app-report6 *ngIf="reportData" [reportData]="reportData" class="mt-8"></app-report6>
+      </div>
+
+    </div>
+    <!-- Affichage des résultats -->
+    <app-report6 [reportData]="reportData" *ngIf="reportData"  class="mt-8"></app-report6>
+  </main>
+
+</div>

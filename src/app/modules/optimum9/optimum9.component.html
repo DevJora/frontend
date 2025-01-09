@@ -1,0 +1,44 @@
+<div class="container mx-auto p-6 bg-white shadow-lg rounded-lg">
+  <h2 class="text-2xl font-bold mb-6">Segmentation de Marché - Optima 8</h2>
+
+  <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="marketData">
+      <div *ngFor="let group of marketData.controls; let i = index" [formGroupName]="i" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Âge :</label>
+          <input formControlName="age" type="text" class="w-full p-2 mt-1 border rounded" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Classe Sociale :</label>
+          <input formControlName="socialClass" type="text" class="w-full p-2 mt-1 border rounded" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Zone Géographique :</label>
+          <input formControlName="zone" type="text" class="w-full p-2 mt-1 border rounded" required>
+        </div>
+
+        <div class="flex items-center">
+          <button type="button" (click)="removeSegment(i)" class="text-red-500 ml-4">X</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button type="button" (click)="addSegment()" class="bg-gray-300 text-black px-4 py-2 rounded">+ Ajouter Segment</button>
+    </div>
+
+    <div class="mt-6 flex justify-end">
+      <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded">Segmenter</button>
+    </div>
+  </form>
+
+  <div *ngIf="reportData" class="mt-8 p-4 bg-green-100 border-l-4 border-green-500">
+    <h3 class="text-xl font-semibold">Résultats de la Segmentation</h3>
+    <div *ngFor="let segment of reportData.segments | keyvalue">
+      <p><strong>{{ segment.key }} :</strong> {{ segment.value }}</p>
+    </div>
+  </div>
+</div>

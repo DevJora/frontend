@@ -1,0 +1,67 @@
+<div *ngIf="reportData" class="mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats - Optima 4</h2>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Introduction</h3>
+    <p>{{ reportData.introduction }}</p>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Données Utilisées</h3>
+    <ul>
+      <li><strong>Stock initial :</strong> {{ reportData.initialStock }} unités</li>
+      <li><strong>Coût fixe (π) :</strong> {{ reportData.fixedStorageCost }} €</li>
+      <li><strong>Coût unitaire de stockage (cs) :</strong> {{ reportData.storageCost }} €/unité</li>
+      <li><strong>Coût des arriérés (β) :</strong> {{ reportData.backlogCost }} €/unité/jour</li>
+      <li><strong>Demande Hebdomadaire :</strong> {{ reportData.demand }} unités</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Interprétation et résultats Obtenus</h3>
+
+    <ul>
+      <li><strong>Décision de stockage :</strong>
+        L'algorithme évalue si le stock existant est suffisant pour couvrir la demande hebdomadaire. Si le stock est insuffisant, une commande supplémentaire est recommandée afin d'atteindre le seuil Q*.</li>
+
+      <li><strong>Gestion des arriérés :</strong>
+        Lorsqu'une rupture de stock est identifiée, des arriérés sont appliqués, et l'algorithme recommande une production urgente afin de réduire les pertes.</li>
+
+      <li><strong>Coût fixe vs. Coût variable :</strong>
+      Le coût fixe est appliqué dès qu'il y a du stock, même en faible quantité. Ce coût est justifié par des frais de gestion ou de maintenance du stock. Les coûts variables dépendent directement de la quantité stockée.</li>
+    </ul>
+    <ul>
+      <li><strong>Quantité de stock optimale (Q*) :</strong> {{ reportData.optimalStock }} unités</li>
+      <li><strong>Coût total de stockage :</strong> {{ reportData.totalStorageCost | number:'1.2-2' }} €</li>
+      <li><strong>Arriérés :</strong> {{ reportData.backlogUnits }} unités</li>
+      <li><strong>Coût des arriérés :</strong> {{ reportData.backlogCost | number:'1.2-2' }} €</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold my-2">Impact d'une Variation de la Demande ou des Coûts</h3>
+    <ul>
+      <li><strong>Demande élevée et incertaine :</strong>
+
+        L'algorithme recommande d'augmenter le seuil de stock de sécurité pour minimiser les risques de rupture.</li>
+
+      Conséquence : Des coûts de stockage plus élevés mais des pertes de ventes réduites.
+
+      <li><strong>Coût fixe élevé (π) :</strong>
+
+        Si le coût fixe devient trop élevé, l'algorithme réduit les cycles de stockage en favorisant des commandes plus importantes mais moins fréquentes.</li>
+
+      <li><strong>Coût des arriérés élevé (β, Ɛ) :</strong>
+
+      Une attention particulière est portée aux ruptures de stock, et l'algorithme privilégie la constitution de stocks tampon pour réduire les risques de pénalités.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3 class="text-xl font-semibold">Interprétation des Résultats</h3>
+    <p>{{ reportData.analysis }}</p>
+  </section>
+
+  <section>
+    <h3 class="text-xl font-semibold">Conclusion</h3>
+    <p>{{ reportData.conclusion }}</p>
+  </section>
+</div>

@@ -1,0 +1,12 @@
+Optimum 1: 
+Durée optimale en heure 
+QUantité optimale sur une unité
+
+Optimum 2: 
+Remplacer la probabilité 
+
+Optimum 3:
+Refaire pour rajouter les produit
+
+Optimum 4 
+Calculer le facteur des arriérés 

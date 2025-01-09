@@ -1,0 +1,22 @@
+<div *ngIf="reportData" class="mt-5 p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-2xl font-bold mb-6">Rapport de Séquence de Production</h2>
+
+  <div class="mb-4">
+    <h3 class="text-lg font-semibold">Séquence de Production :</h3>
+    <p class="text-xl">{{ reportData.optimalSequence.join(' → ') }}</p>
+  </div>
+
+  <div class="mb-4">
+    <h3 class="text-lg font-semibold">Temps Total de Traitement :</h3>
+    <p class="text-xl">{{ reportData.totalProcessingTime }} heures</p>
+  </div>
+
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold">Analyse des Résultats :</h3>
+    <p>
+      La séquence optimale a été déterminée en priorisant les pièces avec des temps de traitement minimaux
+      sur la première machine. Cette stratégie permet de réduire les goulets d'étranglement et d'améliorer l'efficacité
+      globale de la production.
+    </p>
+  </div>
+</div>

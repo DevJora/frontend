@@ -1,0 +1,54 @@
+<div *ngIf="reportData" class="w-auto mt-5 p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats - Optima 3</h2>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Introduction</h3>
+    <p>{{ reportData.introduction }}</p>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Données Utilisées</h3>
+    <ul>
+      <li><strong>Coût de préparation :</strong> {{ reportData.preparationCost }} €</li>
+      <li><strong>Produits analysés :</strong></li>
+      <ul>
+        <li *ngFor="let product of reportData.results.productionRequired">{{ product }}
+        {{ product.name }} - Stock : {{ product.stock }} unités | Coût stockage : {{ product.storageCost }} €/u
+        </li>
+      </ul>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Résultats Obtenus</h3>
+    <p *ngIf=" reportData.results.productionRequired.length > 0" ><strong>Produits nécessitant une production immédiate :</strong></p>
+    <ul>
+      <li *ngFor="let product of reportData.results.productionRequired">{{ product }}</li>
+    </ul>
+    <p *ngIf=" reportData.results.productionDelayed.length > 0"><strong>Produits avec report de production :</strong></p>
+    <ul>
+      <li *ngFor="let product of reportData.results.productionDelayed">{{ product }}</li>
+    </ul>
+    <p><strong>Coût total de production :</strong> {{ reportData.totalCost | number: '1.2-2' }} €</p>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold">Interprétation des Résultats</h3>
+    <ul>
+      <h5 class="font-bold">Décision de production :</h5>
+      L'algorithme évalue la demande et les coûts associés à chaque produit. Si la somme des coûts probables dépasse le seuil calculé dynamiquement, la production est déclenchée.
+
+      <h5 class="font-bold">Optimisation du stock :</h5>
+      Les produits présentant des stocks faibles avec des risques élevés de rupture sont prioritaires pour la production. Cela permet d'éviter des pertes coûteuses.
+
+      <h5 class="font-bold">Seuil non atteint :</h5>
+      Si le seuil de production n'est pas atteint, l'algorithme recommande de reporter la production, réduisant ainsi les coûts inutiles.
+    </ul>
+    <p class="mt-2">{{ reportData.analysis }}</p>
+  </section>
+
+  <section>
+    <h3 class="text-xl font-semibold">Conclusion</h3>
+    <p>{{ reportData.conclusion }}</p>
+  </section>
+</div>

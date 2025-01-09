@@ -1,0 +1,52 @@
+<div *ngIf="reportData" class="w-auto mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-2xl font-bold mb-4">Rapport d'Analyse des Résultats - Optima 2</h2>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Introduction</h3>
+    <p>{{ reportData.introduction }}</p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Données Utilisées</h3>
+    <ul>
+      <li>Coût de stockage : {{ reportData.data.storageCost }} €/unité</li>
+      <li>Coût de commande : {{ reportData.data.orderCost }} €</li>
+      <li>Coût de perte de vente : {{ reportData.data.shortageCost }} €</li>
+    </ul>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Résultats Obtenus</h3>
+    <p><strong>Niveau de stock optimal :</strong> {{ reportData.results.optimalStockLevel }} unités</p>
+    <p><strong>Fréquence optimale de commande :</strong> {{ reportData.results.optimalCycleFrequency }} semaines</p>
+    <p><strong>Coût total minimal :</strong> {{ reportData.results.totalCost | number: '1.0-2' }} €</p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Impact des données</h3>
+    <p>L'algorithme est capable de calculer automatiquement la distribution de probabilité à partir de données journalières soumises par l'utilisateur (sur plusieurs semaines).</p>
+    <h4 class="mt-2">Demande certaine et élevée (C1)</h4>
+    <ul>
+      <li>L'algorithme recommande une augmentation du stock de sécurité pour réduire les risques de rupture.</li>
+      <li>Conséquence : Augmentation des coûts de stockage.</li>
+    </ul>
+    <h4 class="mt-2">Coût élevé de demande (C3): </h4>
+    <ul>
+      <li>L'algorithme augmente la taille des commandes pour réduire la fréquence des commandes.</li>
+      <li>Conséquence : Moins de commandes mais des quantités plus importantes.</li>
+    </ul>
+    <h4 class="mt-2">Coût de perte de vente élevé (C2) :</h4>
+    <ul>
+      <li>Une priorité est donnée à la prévention des ruptures de stock.</li>
+      <li>Conséquence : Stock de sécurité plus important.</li>
+    </ul>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Interprétation des Résultats</h3>
+    <p>{{ reportData.analysis }}</p>
+  </section>
+
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold">Conclusion</h3>
+    <p>{{ reportData.conclusion }}</p>
+  </section>
+</div>

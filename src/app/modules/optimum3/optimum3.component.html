@@ -1,0 +1,113 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center">
+  <!-- En-tête -->
+  <header class="bg-blue-600 w-full text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">OPTIMA 3</h1>
+      <nav>
+        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
+    <!-- Titre -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans OPTIMA 3</h2>
+      <p class="text-gray-600 mt-2">
+        OPTIMA 3 traite des problèmes où la demande est aléatoire, et les contrôles de stock sont effectués périodiquement (par exemple, chaque semaine).
+      </p>
+    </div>
+
+    <!-- Section détails -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Card 3 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
+        <p class="text-sm text-gray-600 mt-2">
+          L'objectif est de déterminer si la production doit être lancée à chaque contrôle hebdomadaire pour minimiser les coûts probables.
+        </p>
+        <ul class="text-sm mt-2 list-disc pl-5 space-y-2 text-gray-700">
+          <li>Si les coûts probables liés au stock initial excèdent
+            le coût total minimum,  il est préférable de produire pour réduire les coûts totaux.</li>
+            <li>Si les stocks initiaux sont inférieurs aux niveaux optimaux (500 m pour
+            𝐴 et B), il est possible de retarder la production.</li>
+        </ul>
+      </div>
+
+      <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-bold mb-6">Gestion de la Production - Optima 3</h2>
+
+        <form [formGroup]="optimaForm" (input)="updateThreshold()" (ngSubmit)="onSubmit()">
+
+          <div class="mb-6">
+            <label for="preparationCost" class="block text-sm font-medium text-gray-700">Coût de préparation (€)</label>
+            <input id="preparationCost" formControlName="preparationCost" type="number" class="mt-1 block w-full border p-2 rounded" />
+          </div>
+          <div *ngFor="let control of productControls.controls; let i = index" [formGroup]="castToFormGroup(control)" class="mb-6 p-4 border rounded bg-gray-50">
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Nom du produit -->
+              <div>
+                <label for="productName-{{i}}" class="block text-sm font-medium text-gray-700">Nom du produit</label>
+                <input id="productName-{{i}}" formControlName="productName" type="text" class="mt-1 block w-full border p-2 rounded" />
+              </div>
+
+
+              <!-- Stock -->
+              <div>
+                <label for="stock-{{i}}" class="block text-sm font-medium text-gray-700">Stock</label>
+                <input id="stock-{{i}}" formControlName="stock" type="number" class="mt-1 block w-full border p-2 rounded" />
+              </div>
+
+              <!-- Coût de stockage -->
+              <div>
+                <label for="storageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de stockage (€)</label>
+                <input id="storageCost-{{i}}" formControlName="storageCost" type="number" class="mt-1 block w-full border p-2 rounded" />
+              </div>
+
+              <!-- Coût de rupture de stock -->
+              <div>
+                <label for="shortageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de rupture (€)</label>
+                <input id="shortageCost-{{i}}" formControlName="shortageCost" type="number" class="mt-1 block w-full border p-2 rounded" />
+              </div>
+            </div>
+
+            <!-- Bouton de suppression -->
+            <div class="mt-4">
+              <button type="button" (click)="removeProduct(i)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+
+          <button type="button" (click)="addProduct()" class="bg-blue-500 text-white px-4 py-2 rounded">+ Ajouter</button>
+
+          <div class="mt-4">
+            <p class="text-lg"><strong>Valeur seuil calculée :</strong> {{ threshold | number: '1.2-2' }} €</p>
+          </div>
+
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-4">Calculer</button>
+        </form>
+
+        <div *ngIf="reportData" class="mt-6">
+          <h3>Résultats :</h3>
+          <p *ngIf=" reportData.results.productionRequired.length > 0"><strong>Produits nécessitant une production immédiate  :</strong></p>
+          <ul>
+            <li *ngFor="let product of reportData.results.productionRequired">{{ product }}</li>
+          </ul>
+          <p *ngIf=" reportData.results.productionDelayed.length > 0"><strong>Produits avec report de production :</strong></p>
+          <ul>
+            <li *ngFor="let product of reportData.results.productionDelayed">{{ product }}</li>
+          </ul>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- Affichage du rapport après calcul -->
+    <app-report3 *ngIf="reportData" [reportData]="reportData"></app-report3>
+  </main>
+
+</div>
