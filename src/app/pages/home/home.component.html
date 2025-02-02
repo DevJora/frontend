@@ -1,15 +1,14 @@
-
 <!-- Hero Section -->
 <section class="bg-gray-100 py-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-4xl font-extrabold text-gray-800">Simplify Your Workflow</h2>
-    <p class="mt-4 text-lg text-gray-600">Discover how our SaaS solution can streamline your operations and increase productivity.</p>
+    <h2 class="text-4xl font-extrabold text-gray-800">Boostez votre entreprise avec Optima</h2>
+    <p class="mt-4 text-lg text-gray-600">Découvrez comment Optima, notre solution SaaS de pointe, peut révolutionner vos opérations grâce à des algorithmes intelligents d'optimisation.</p>
     <div class="mt-6">
       <button class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-600">
-        Get Started
+        Commencer
       </button>
-      <button class="ml-4 border border-blue-500 text-blue-500 px-6 py-3 rounded-lg hover:bg-blue-50">
-        Learn More
+      <button  (click)="goToDetail()" class="ml-4 border border-blue-500 text-blue-500 px-6 py-3 rounded-lg hover:bg-blue-50">
+        En savoir plus
       </button>
     </div>
   </div>
@@ -18,31 +17,67 @@
 <!-- Features Section -->
 <section class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h3 class="text-3xl font-bold text-center text-gray-800">Features Designed for Success</h3>
+    <h3 class="text-3xl font-bold text-center text-gray-800">Des fonctionnalités conçues pour optimiser votre succès</h3>
     <div class="mt-12 grid gap-8 md:grid-cols-3">
       <!-- Feature 1 -->
       <div class="text-center">
         <div class="bg-blue-500 text-white w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-          <i class="fas fa-chart-line text-2xl"></i>
+          <i class="fas fa-cogs text-2xl"></i>
         </div>
-        <h4 class="mt-4 text-xl font-semibold text-gray-800">Analytics</h4>
-        <p class="mt-2 text-gray-600">Gain insights with real-time analytics and reporting tools.</p>
+        <h4 class="mt-4 text-xl font-semibold text-gray-800">Algorithmes avancés</h4>
+        <p class="mt-2 text-gray-600">Exploitez la puissance des algorithmes intelligents pour optimiser la production, la logistique et le marketing.</p>
       </div>
       <!-- Feature 2 -->
       <div class="text-center">
         <div class="bg-blue-500 text-white w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-          <i class="fas fa-shield-alt text-2xl"></i>
+          <i class="fas fa-chart-line text-2xl"></i>
         </div>
-        <h4 class="mt-4 text-xl font-semibold text-gray-800">Security</h4>
-        <p class="mt-2 text-gray-600">Rest assured with top-notch data security and encryption.</p>
+        <h4 class="mt-4 text-xl font-semibold text-gray-800">Décisions basées sur les données</h4>
+        <p class="mt-2 text-gray-600">Prenez des décisions éclairées grâce à des analyses détaillées et des rapports en temps réel.</p>
       </div>
       <!-- Feature 3 -->
       <div class="text-center">
         <div class="bg-blue-500 text-white w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-          <i class="fas fa-cogs text-2xl"></i>
+          <i class="fas fa-lock text-2xl"></i>
         </div>
-        <h4 class="mt-4 text-xl font-semibold text-gray-800">Automation</h4>
-        <p class="mt-2 text-gray-600">Automate repetitive tasks and focus on what matters.</p>
+        <h4 class="mt-4 text-xl font-semibold text-gray-800">Sécurisé et fiable</h4>
+        <p class="mt-2 text-gray-600">Profitez d'une tranquillité d'esprit grâce à une sécurité de niveau entreprise et une disponibilité continue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h3 class="text-3xl font-bold text-center text-gray-800">Nos offres</h3>
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      <!-- Basic Plan -->
+      <div class="border border-gray-200 rounded-lg p-6 text-center shadow-lg">
+        <h4 class="text-xl font-bold text-gray-800">Basic</h4>
+        <p class="mt-4 text-gray-600">Accès à 2-3 algorithmes de base pour démarrer.</p>
+        <p class="mt-6 text-2xl font-bold text-gray-800">49 € / mois</p>
+        <button class="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">
+          Choisir Basic
+        </button>
+      </div>
+      <!-- Pro Plan -->
+      <div class="border border-gray-200 rounded-lg p-6 text-center shadow-lg">
+        <h4 class="text-xl font-bold text-gray-800">Pro</h4>
+        <p class="mt-4 text-gray-600">Accès à tous les algorithmes avec intégration API.</p>
+        <p class="mt-6 text-2xl font-bold text-gray-800">149 € / mois</p>
+        <button class="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">
+          Choisir Pro
+        </button>
+      </div>
+      <!-- Enterprise Plan -->
+      <div class="border border-gray-200 rounded-lg p-6 text-center shadow-lg">
+        <h4 class="text-xl font-bold text-gray-800">Enterprise</h4>
+        <p class="mt-4 text-gray-600">Solutions personnalisées et support dédié.</p>
+        <p class="mt-6 text-2xl font-bold text-gray-800">499 € et plus / mois</p>
+        <button class="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">
+          Contacter
+        </button>
       </div>
     </div>
   </div>
@@ -51,13 +86,12 @@
 <!-- Call-to-Action Section -->
 <section class="bg-blue-500 py-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h4 class="text-3xl font-bold text-white">Ready to get started?</h4>
-    <p class="mt-2 text-lg text-blue-100">Sign up today and transform your workflow.</p>
+    <h4 class="text-3xl font-bold text-white">Prêt à optimiser vos opérations ?</h4>
+    <p class="mt-2 text-lg text-blue-100">Rejoignez des centaines d'entreprises qui utilisent Optima pour réussir.</p>
     <div class="mt-6">
       <button class="bg-white text-blue-500 px-6 py-3 rounded-lg shadow-lg hover:bg-gray-100">
-        Start Free Trial
+        Commencez votre essai gratuit
       </button>
     </div>
   </div>
 </section>
-

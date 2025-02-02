@@ -1,0 +1,65 @@
+<div class="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Formulaire d'entrée -->
+    <div>
+      <h1 class="text-2xl font-bold text-center mb-6">Optimisation Agricole & Transport</h1>
+      <form [formGroup]="optimaForm" (ngSubmit)="calculate()" class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label class="block font-semibold">Nombre de fermes</label>
+          <input type="number" formControlName="farms" class="w-full p-2 border rounded-md">
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold">Nombre de cultures</label>
+          <input type="number" formControlName="crops" class="w-full p-2 border rounded-md">
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold">Ressources disponibles (eau en litres)</label>
+          <input type="number" formControlName="water" class="w-full p-2 border rounded-md">
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold">Nombre d'usines</label>
+          <input type="number" formControlName="factories" class="w-full p-2 border rounded-md">
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold">Nombre de produits</label>
+          <input type="number" formControlName="products" class="w-full p-2 border rounded-md">
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md w-full">Calculer</button>
+      </form>
+    </div>
+
+    <!-- Explications de l'algorithme -->
+    <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-semibold">Pourquoi recourir aux algorithmes d'optima?</h2>
+      <p class="mt-2">Toute activité, qu'elle soit commerciale ou industrielle, a pour but de satisfaire un
+        consommateur, final ou intermédiaire.
+        L'entrepreneur industriel, commercial ou manufacturier doit former les meilleures
+        attentes possibles à travers une décision stratégique.
+        Le recours à l’optimisation ancrée sur les modèles mathématiques est
+        indispensable, et n’exige pas la culture scientifique en mathématiques.
+        L’illustration à travers cet exemple, qui est d’actualité confirme et donne l’espoir
+        aux potentiels utilisateurs de ces algorithmes.</p>
+        <p class="mt-2">Voici un exemple illustratif résumant l’utilisation de nos algorithmes.
+            Une organisation agricole exploite trois fermes de productivité comparable. La
+            production de chaque exploitation est limitée à la fois par la superficie utilisable
+            et par la quantité d'eau pouvant être utilisée pour l'irrigation.</p>
+            <p class="mt-2">Cet algorithme permet d'optimiser la répartition des cultures agricoles et des produits industriels en respectant les contraintes des ressources disponibles.</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li><strong>Optimisation agricole :</strong> Déterminer la meilleure répartition des cultures sur les fermes pour maximiser le profit en fonction de l'eau et de l'espace disponible.</li>
+              <li><strong>Problème de transport :</strong> Trouver la répartition optimale des produits dans les usines pour minimiser les coûts de production et de transport.</li>
+            </ul>
+            <p class="mt-2">Le calcul s'appuie sur des formules de programmation linéaire et de transport afin de trouver la meilleure allocation des ressources.</p>
+      </div>
+
+    </div>
+
+
+  <!-- Résultats -->
+  <div *ngIf="result" class="mt-6 bg-green-100 p-4 rounded-lg shadow-md">
+    <h2 class="text-xl font-semibold">Résultat de l'optimisation</h2>
+    <p>{{ result }}</p>
+  </div>

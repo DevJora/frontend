@@ -12,11 +12,13 @@ import {Optimum7Component} from './modules/optimum7/optimum7.component';
 import {Optimum8Component} from './modules/optimum8/optimum8.component';
 import {Optimum9Component} from './modules/optimum9/optimum9.component';
 import {OptimumXComponent} from './modules/optimum-x/optimum-x.component';
+import { PresentationComponent } from './pages/presentation/presentation.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'optima', component:  PresentationComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
-      { path: '', component:  HomeDashboardComponent},
+      { path: '', component: PresentationComponent},
       { path: 'optimum1', component:  Optimum1Component},
       { path: 'optimum2', component:  Optimum2Component},
       { path: 'optimum3', component:  Optimum3Component},
