@@ -12,6 +12,7 @@ import {Optimum7Component} from './modules/optimum7/optimum7.component';
 import {Optimum8Component} from './modules/optimum8/optimum8.component';
 import {Optimum9Component} from './modules/optimum9/optimum9.component';
 import {OptimumXComponent} from './modules/optimum-x/optimum-x.component';
+<<<<<<< Updated upstream
 import { PresentationComponent } from './pages/presentation/presentation.component';
 
 export const routes: Routes = [
@@ -20,6 +21,26 @@ export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, children: [
       { path: '', component: PresentationComponent},
       { path: 'optimum1', component:  Optimum1Component},
+=======
+import {LoginComponent} from './pages/login/login.component';
+import {RegisterComponent} from './pages/register/register.component';
+import {AuthGuard} from './auth.guard';
+import {ProfileComponent} from './pages/profile/profile.component';
+import {InfoComponent} from './pages/info/info.component';
+
+
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'info', component: InfoComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  {path: 'dashboard', component: DashboardComponent, children: [
+      { path: '', redirectTo: 'profile', pathMatch: 'full'},
+      { path: 'home', component: HomeDashboardComponent},
+      { path: 'profile', component: ProfileComponent },
+      { path: 'optima1', component:  Optimum1Component},
+>>>>>>> Stashed changes
       { path: 'optimum2', component:  Optimum2Component},
       { path: 'optimum3', component:  Optimum3Component},
       { path: 'optimum4', component:  Optimum4Component},
@@ -29,5 +50,5 @@ export const routes: Routes = [
       { path: 'optimum8', component:  Optimum8Component},
       { path: 'optimum9', component:  Optimum9Component},
       { path: 'optimumX', component:  OptimumXComponent},
-    ],}
+    ], canActivate: [AuthGuard]}
 ];

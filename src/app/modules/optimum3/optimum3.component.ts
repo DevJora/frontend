@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DecimalPipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import {OptimaService} from '../../optima-request.service';
+import {OptimaService} from '../../services/optima-request.service';
 import {Report3Component} from './report3/report3.component';
 
 @Component({
@@ -77,8 +77,10 @@ export class Optimum3Component {
         products: this.productControls.value
       };
 
+      console.log(this.optimaForm.value)
       this.optimaService.calculateOptimum3(payload).subscribe({
         next: (response) => {
+          console.log(response)
           this.reportData = {
             introduction: "L'objectif de ce rapport est de présenter une analyse des résultats obtenus par l'algorithme Optima 3, qui calcule la fréquence optimale de production et le niveau de stock nécessaire pour plusieurs produits. L'algorithme s'adapte à une demande incertaine tout en minimisant les coûts de stockage, de production et de rupture de stock.",
             preparationCost: payload.preparationCost,

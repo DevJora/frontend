@@ -1,16 +1,22 @@
 import { Component } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-header',
   imports: [
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './header.component.html',
   standalone: true,
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  constructor(public authService: AuthService, private readonly router: Router) {
+  }
+
   isMenuOpen = false;
 
   toggleMenu() {
@@ -33,7 +39,8 @@ export class HeaderComponent {
   }
 
   logout() {
-
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   goToSettings() {

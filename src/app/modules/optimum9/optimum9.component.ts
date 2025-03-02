@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {OptimaService} from '../../optima-request.service';
+import {OptimaService} from '../../services/optima-request.service';
 import {KeyValuePipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({

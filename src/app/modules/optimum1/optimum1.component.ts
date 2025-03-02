@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DecimalPipe, NgIf} from '@angular/common';
 import {Optima1Request, Optima1Response} from '../../models/Optima1';
-import {OptimaService} from '../../optima-request.service';
+import {OptimaService} from '../../services/optima-request.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {response} from 'express';
 import {Report1Component} from './report1/report1.component';

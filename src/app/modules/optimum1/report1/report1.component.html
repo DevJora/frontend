@@ -10,15 +10,15 @@
     <h3 class="text-lg font-semibold">Données Utilisées</h3>
     <ul>
       <li>Demande : {{ reportData.data.demand }} unités</li>
-      <li>Coût de production : {{ reportData.data.productionCost }} lires</li>
-      <li>Coût de stockage : {{ reportData.data.storageCost }} lires/an</li>
+      <li>Coût de production : {{ reportData.data.productionCost }} unités</li>
+      <li>Coût de stockage : {{ reportData.data.storageCost }} unités/an</li>
       <li>Capacité journalière : {{ reportData.data.dailyCapacity }} unités</li>
     </ul>
   </section>
 
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Résultats Obtenus</h3>
-    <p><strong>Fréquence optimale :</strong> {{ reportData.results.frequency | number }} roulements/cycle</p>
+    <p><strong>Fréquence optimale :</strong> {{ reportData.results.frequency | number }} unités/cycle</p>
     <p><strong>Intervalle optimal :</strong> {{ reportData.results.interval | number: '1.2-2' }} jour{{reportData.results.interval > 1? "s" : ""}}</p>
   </section>
 

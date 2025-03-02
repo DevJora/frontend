@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
 import GLPK from 'glpk.js';
 import {NgForOf, NgIf} from '@angular/common';
-import {OptimaService} from '../../optima-request.service';
+import {OptimaService} from '../../services/optima-request.service';
 import {Report5Component} from './report5/report5.component';
 
 @Component({

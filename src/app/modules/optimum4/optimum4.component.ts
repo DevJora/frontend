@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DecimalPipe, NgClass, NgIf} from '@angular/common';
-import {OptimaService} from '../../optima-request.service';
+import {OptimaService} from '../../services/optima-request.service';
 import {Report4Component} from './report4/report4.component';
 
 @Component({

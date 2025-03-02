@@ -1,0 +1,36 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800">Connexion</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="mt-6">
+      <!-- Champ Nom d'utilisateur -->
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 font-medium mb-2">Nom d'utilisateur</label>
+        <input id="username" type="text" formControlName="username"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+               placeholder="Votre nom d'utilisateur" required>
+      </div>
+
+      <!-- Champ Mot de passe -->
+      <div class="mb-4">
+        <label for="pwd" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
+        <input id="pwd" type="pwd" formControlName="pwd"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+               placeholder="Votre mot de passe" required>
+      </div>
+
+      <!-- Bouton de connexion -->
+      <button type="submit"
+              class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 disabled:opacity-50"
+              [disabled]="loginForm.invalid">
+        Se connecter
+      </button>
+    </form>
+
+    <!-- Lien vers l'inscription -->
+    <p class="mt-4 text-center text-gray-600">
+      Pas encore de compte ?
+      <a routerLink="/register" class="text-blue-500 hover:underline">Inscrivez-vous</a>
+    </p>
+  </div>
+</div>
