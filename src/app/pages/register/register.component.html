@@ -1,39 +1,157 @@
+
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-gray-800">Inscription</h2>
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full md:w-1/2 lg:w-2/3">
+    <h2 class="text-2xl font-bold text-center text-gray-800 ">Inscription</h2>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()" class="mt-6">
-      <!-- Champ Nom d'utilisateur -->
-      <div class="mb-4">
-        <label for="username" class="block text-gray-700 font-medium mb-2">Nom d'utilisateur</label>
-        <input id="username" type="text" formControlName="username"
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-               placeholder="Votre nom d'utilisateur" required>
-      </div>
+    <mat-stepper orientation="vertical" [linear]="isLinear" #wstepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="mt-6">
+          <ng-template matStepLabel>Coordonnées</ng-template>
+          <!-- Champ Nom d'utilisateur -->
+          <div class="mb-4">
+            <label for="username" class="block text-gray-700 font-medium mb-2">Nom d'utilisateur</label>
+            <input id="username" type="text" formControlName="username"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Votre nom d'utilisateur" required>
+          </div>
 
-      <!-- Champ Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-gray-700 font-medium mb-2">Adresse e-mail</label>
-        <input id="email" type="email" formControlName="email"
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-               placeholder="Votre email" required>
-      </div>
+          <!-- Champ Email -->
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 font-medium mb-2">Adresse e-mail</label>
+            <input id="email" type="email" formControlName="email"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Votre email" required>
+          </div>
 
-      <!-- Champ Mot de passe -->
-      <div class="mb-4">
-        <label for="pwd" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
-        <input id="pwd" type="pwd" formControlName="pwd"
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-               placeholder="Votre mot de passe" required>
-      </div>
+          <!-- Champ Mot de passe -->
+          <div class="mb-4">
+            <label for="pwd" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
+            <input id="pwd" type="pwd" formControlName="pwd"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Votre mot de passe" required>
+          </div>
 
-      <!-- Bouton d'inscription -->
-      <button type="submit"
-              class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 disabled:opacity-50"
-              [disabled]="registerForm.invalid">
-        S'inscrire
-      </button>
-    </form>
+          <!-- Bouton d'inscription -->
+          <button type="submit"
+                  class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+                  [disabled]="registerForm.invalid" (click)="stepper.next()">
+            Enregistrer
+          </button>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <!-- src/app/pages/subscription/subscription.component.html -->
+        <div class=" bg-gray-100 p-6">
+          <h2 class="text-3xl font-bold text-center mb-8">Choisissez votre abonnement</h2>
+
+          <form (ngSubmit)="subscribeInfo()" class="flex flex-col items-center">
+            <ng-template matStepLabel>Abonnement</ng-template>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6  mb-6">
+              <label
+                *ngFor="let plan of plans"
+                class="cursor-pointer bg-white rounded-2xl shadow-md p-6 border-2 transition-all duration-200"
+                [ngClass]="{
+                            'border-blue-600 ring-2 ring-blue-300': selectedPlan?.name === plan.name,
+                            'hover:border-blue-400': selectedPlan?.name !== plan.name
+                          }"
+              >
+                <input
+                  type="radio"
+                  name="subscription"
+                  [value]="plan"
+                  (change)="selectedPlan = plan"
+                  class="hidden"
+                />
+                <h3 class="text-xl font-semibold mb-2">{{ plan.name }}</h3>
+                <p class="text-gray-600 mb-4 text-center">{{ plan.description }}</p>
+                <div class="text-3xl font-bold mb-4">
+                  {{ plan.price === 0 ? 'Gratuit' : plan.price + ' €' }}
+                </div>
+                <ul class="text-sm text-gray-700 mb-4 space-y-1">
+                  <li *ngFor="let f of plan.features">✔️ {{ f }}</li>
+                </ul>
+              </label>
+            </div>
+
+            <div>
+              <button
+                type="submit" (click)="stepper.next()"
+                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+              >
+                Enregistrer
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Choix d'algorithmes si Standard -->
+          <div *ngIf="selectedPlan?.name === 'Premium'" class="max-w-4xl mx-auto mt-6 bg-white p-6 rounded-xl shadow">
+            <h4 class="text-lg font-semibold mb-2 text-center">Choisissez 3 algorithmes</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <label
+                *ngFor="let algo of algorithms"
+                class="flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded border cursor-pointer"
+                [ngClass]="{
+                              'opacity-50 pointer-events-none': isAlgoDisabled(algo),
+                              'border-blue-600 bg-blue-50': selectedAlgorithms.includes(algo)
+                            }"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="selectedAlgorithms.includes(algo)"
+                  (change)="toggleAlgorithmSelection(algo)"
+                  [disabled]="isAlgoDisabled(algo)"
+                />
+                <span>{{ algo }}</span>
+              </label>
+            </div>
+            <p class="mt-2 text-sm text-gray-500 text-center">
+              {{ selectedAlgorithms.length }} sélectionné(s) sur 3 maximum
+            </p>
+          </div>
+
+        </div>
+
+
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Confirmation</ng-template>
+        <div *ngIf="userData && selectedPlan">
+          <p class="mb-2">Vérifiez les informations que vous avez saisi. </p>
+
+          <ul class="list-none list-inside">
+            <li>
+              <p>Nom d'utilisateur: {{userData.username}}</p>
+            </li>
+            <li>
+              <p>Mail utilisateur: {{userData.email}}</p>
+            </li>
+            <li>
+              <p>Mot de passe: **********</p>
+            </li>
+            <li>
+              <p>Abonnement: {{selectedPlan?.name}} ({{selectedPlan?.price}} €)</p>
+            </li>
+            <li *ngIf="selectedPlan.name == 'Premium'">
+              <p>Algorithmes: <span *ngFor="let s of selectedAlgorithms">{{s}}, </span></p>
+            </li>
+            <li *ngIf="selectedPlan.name == 'Essai gratuit'">
+              <p>Algorithmes: Optima 1, 2 et 3</p>
+            </li>
+            <li *ngIf="selectedPlan.name == 'Entreprise'">
+              <p>Algorithmes: Tous</p>
+            </li>
+          </ul>
+        </div>
+
+
+        <div>
+          <button mat-button matStepperPrevious>Revenir en arrière</button>
+          <button mat-button (click)="stepper.reset()">Recommencer</button>
+          <button *ngIf="userData && selectedPlan" mat-button (click)="subscribe()">Valider l'inscription</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
 
     <!-- Lien vers la connexion -->
     <p class="mt-4 text-center text-gray-600">

@@ -1,0 +1,28 @@
+<div *ngIf="data.type == 'welcome'" class="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
+  <h1 mat-dialog-title class="text-2xl font-bold text-gray-800" *ngIf="data.name !== ''">{{data.name}}</h1>
+  <div mat-dialog-content class="mt-4">
+    <p class="text-gray-600">Vous bénéficiez actuellement de l'abonnement {{data.value}}</p>
+  </div>
+  <div mat-dialog-actions class="mt-6 flex justify-end">
+    <button mat-button (click)="onSubscribe()" class="px-4 m-1 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      Changer d'abonnement
+    </button>
+    <button mat-button (click)="onNoClick()" class="px-4 m-1 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Fermer
+    </button>
+  </div>
+</div>
+<div *ngIf="data.type == 'unauthorized' || data.type == 'unauthorized-redirection'" class="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
+  <h1 mat-dialog-title class="text-2xl font-bold text-gray-800" *ngIf="data.name !== ''">{{data.name}}</h1>
+  <div mat-dialog-content class="mt-4">
+    <p class="text-gray-600">{{data.value}}</p>
+  </div>
+  <div mat-dialog-actions class="mt-6 flex justify-end">
+    <button mat-button (click)="onSubscribe()" class="px-4 m-1 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      Changer d'abonnement
+    </button>
+    <button mat-button (click)="onNoClick()" class="px-4 m-1 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Fermer
+    </button>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {finalize, Observable} from 'rxjs';
 import {UserDTO} from '../DTOs/userDTO';
+import {LoadingService} from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ export class UserService {
 
   private apiUrl = 'http://localhost:8081';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private readonly loadingService: LoadingService) { }
 
   getUserInfo(id : number): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/user/${id}`);
+    this.loadingService.show();
+    return this.http.get<UserDTO>(`${this.apiUrl}/user/${id}`).pipe(finalize(() => this.loadingService.hide()));;
   }
 }

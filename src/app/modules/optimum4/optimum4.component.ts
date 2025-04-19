@@ -1,8 +1,11 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DecimalPipe, NgClass, NgIf} from '@angular/common';
 import {OptimaService} from '../../services/optima-request.service';
 import {Report4Component} from './report4/report4.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {DialogContentComponent} from '../../components/dialog-content/dialog-content.component';
 
 @Component({
   selector: 'app-optimum4',
@@ -10,14 +13,19 @@ import {Report4Component} from './report4/report4.component';
     ReactiveFormsModule,
     NgIf,
     DecimalPipe,
+    MatDialogModule,
     Report4Component
   ],
   templateUrl: './optimum4.component.html',
   standalone: true,
   styleUrl: './optimum4.component.css'
 })
-export class Optimum4Component {
-   reportData: any | null = null;
+export class Optimum4Component implements OnInit{
+
+
+
+
+  reportData: any | null = null;
 
   /*optimaForm!: FormGroup;
   summary: string = ''; // Stocke le résumé à afficher
@@ -64,7 +72,10 @@ export class Optimum4Component {
   totalCost: number | null = null; // Coût global de stockage
   shouldProduce: boolean | null = null; // Décision finale
 
-  constructor(private fb: FormBuilder, private readonly optimaService: OptimaService) {
+  constructor(private readonly router: Router,
+              public dialog: MatDialog,
+              private fb: FormBuilder,
+              private readonly optimaService: OptimaService) {
     this.optimaForm = this.fb.group({
       initialStock: [0, [Validators.required, Validators.min(0)]],
       storageCost: [0, [Validators.required, Validators.min(0)]],
@@ -72,6 +83,29 @@ export class Optimum4Component {
       backlogCost: [0, [Validators.required, Validators.min(0)]],
       delayPenalty: [0, [Validators.required, Validators.min(0)]],
       demand: [0, [Validators.required, Validators.min(0)]]
+    });
+  }
+
+  ngOnInit() {
+    const user = JSON.parse(<string>localStorage.getItem("user"));
+    if (!user) {
+      console.warn('Aucun utilisateur trouvé, redirection vers login...');
+
+    }
+
+    if(user.subscription == "FREEMIUM"){
+      this.openDialog();
+    }
+
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentComponent, {
+      width: '500px',
+      data: {name: '', value : `Votre abonnement actuel ne vous permet pas d'accéder à cet algorithme.`, type: 'unauthorized-redirection'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/dashboard/home']);
     });
   }
 
@@ -124,3 +158,5 @@ export class Optimum4Component {
 
 
 }
+
+

@@ -9,4 +9,5 @@ export class UserDTO {
   subscription!: string;
 
   logs!: LogDTO[];
+  expiration!: string;
 }

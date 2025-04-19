@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {OptimaService} from '../../services/optima-request.service';
 import {KeyValuePipe, NgForOf, NgIf} from '@angular/common';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogContentComponent} from '../../components/dialog-content/dialog-content.component';
 
 @Component({
   selector: 'app-optimum9',
@@ -15,13 +18,40 @@ import {KeyValuePipe, NgForOf, NgIf} from '@angular/common';
   standalone: true,
   styleUrl: './optimum9.component.css'
 })
-export class Optimum9Component {
+export class Optimum9Component implements OnInit{
   optimaForm: FormGroup;
   reportData: any | null = null;
 
-  constructor(private fb: FormBuilder, private optimaService: OptimaService) {
+  constructor(private fb: FormBuilder,
+              private optimaService: OptimaService,
+              public dialog: MatDialog,
+              private readonly router: Router
+  ) {
     this.optimaForm = this.fb.group({
       marketData: this.fb.array([this.createSegment()])
+    });
+  }
+
+  ngOnInit() {
+    const user = JSON.parse(<string>localStorage.getItem("user"));
+    if (!user) {
+      console.warn('Aucun utilisateur trouvé, redirection vers login...');
+
+    }
+
+    if(user.subscription == "FREEMIUM"){
+      this.openDialog();
+    }
+
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentComponent, {
+      width: '500px',
+      data: {name: '', value : `Votre abonnement actuel ne vous permet pas d'accéder à cet algorithme.`, type: 'unauthorized-redirection'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/dashboard/home']);
     });
   }
 

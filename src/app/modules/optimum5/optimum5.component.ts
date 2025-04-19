@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
 import GLPK from 'glpk.js';
 import {NgForOf, NgIf} from '@angular/common';
 import {OptimaService} from '../../services/optima-request.service';
 import {Report5Component} from './report5/report5.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {DialogContentComponent} from '../../components/dialog-content/dialog-content.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-optimum5',
@@ -13,14 +16,18 @@ import {Report5Component} from './report5/report5.component';
     ReactiveFormsModule,
     NgForOf,
     Report5Component,
+    MatDialogModule,
     NgIf
   ],
   styleUrls: ['./optimum5.component.css']
 })
-export class Optimum5Component {optimaForm: FormGroup;
+export class Optimum5Component implements OnInit{optimaForm: FormGroup;
   reportData: any | null = null;
 
-  constructor(private fb: FormBuilder, private optimaService: OptimaService) {
+  constructor(private fb: FormBuilder,
+              private optimaService: OptimaService,
+              private readonly router: Router,
+              public dialog: MatDialog,) {
     this.optimaForm = this.fb.group({
       initialStock: [1000, [Validators.required, Validators.min(0)]],
       productionCapacity: [5000, [Validators.required, Validators.min(0)]],
@@ -32,6 +39,29 @@ export class Optimum5Component {optimaForm: FormGroup;
 
     // Ajouter au moins un mois par défaut
     this.addMonth();
+  }
+
+  ngOnInit() {
+    const user = JSON.parse(<string>localStorage.getItem("user"));
+    if (!user) {
+      console.warn('Aucun utilisateur trouvé, redirection vers login...');
+
+    }
+
+    if(user.subscription == "FREEMIUM"){
+      this.openDialog();
+    }
+
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentComponent, {
+      width: '500px',
+      data: {name: '', value : `Votre abonnement actuel ne vous permet pas d'accéder à cet algorithme.`, type: 'unauthorized-redirection'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/dashboard/home']);
+    });
   }
 
 // Getter pour récupérer le FormArray
@@ -47,10 +77,6 @@ export class Optimum5Component {optimaForm: FormGroup;
     });
 
     this.demandControls.push(monthForm);  // Ajout au FormArray
-
-    console.log(this.optimaForm.get('demandForecast')?.value)
-
-    console.log('FormArray après ajout :', this.demandControls.value);
   }
 
 

@@ -24,6 +24,7 @@
     "@angular/router": "^19.0.0",
     "@angular/ssr": "^19.0.4",
     "@fortawesome/fontawesome-free": "^6.7.1",
+    "date-fns": "^4.1.0",
     "express": "^4.18.2",
     "glpk.js": "^4.0.2",
     "material-design-icons": "^3.0.1",

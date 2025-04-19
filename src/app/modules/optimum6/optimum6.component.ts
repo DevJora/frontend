@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {OptimaService} from '../../services/optima-request.service';
 import {Report6Component} from './report6/report6.component';
+import {DialogContentComponent} from '../../components/dialog-content/dialog-content.component';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-optimum6',
@@ -16,11 +19,15 @@ import {Report6Component} from './report6/report6.component';
   standalone: true,
   styleUrl: './optimum6.component.css'
 })
-export class Optimum6Component {
+export class Optimum6Component implements OnInit {
   optimaForm: FormGroup;
   reportData: any | null = null;
 
-  constructor(private fb: FormBuilder, private optimaService: OptimaService) {
+  constructor(private fb: FormBuilder,
+              private optimaService: OptimaService,
+              public dialog: MatDialog,
+              private readonly router: Router
+  ) {
     this.optimaForm = this.fb.group({
       production: this.fb.array([]),
       demand: this.fb.array([]),
@@ -30,6 +37,31 @@ export class Optimum6Component {
     this.addProduction();
     this.addDemand();
   }
+
+  ngOnInit() {
+    const user = JSON.parse(<string>localStorage.getItem("user"));
+    if (!user) {
+      console.warn('Aucun utilisateur trouvé, redirection vers login...');
+
+    }
+
+    if(user.subscription == "FREEMIUM"){
+      this.openDialog();
+    }
+
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentComponent, {
+      width: '500px',
+      data: {name: '', value : `Votre abonnement actuel ne vous permet pas d'accéder à cet algorithme.`, type: 'unauthorized-redirection'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/dashboard/home']);
+    });
+  }
+
+
 
   get productionControls(): FormArray {
     return this.optimaForm.get('production') as FormArray;
