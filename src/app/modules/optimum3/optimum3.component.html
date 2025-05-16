@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center">
   <!-- En-tête -->
-  <header class="bg-blue-600 w-full text-white py-4">
+  <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
   <h1 class="text-xl font-bold">OPTIMA 3</h1>
       <nav>
@@ -39,9 +39,28 @@
         <h2 class="text-2xl font-bold mb-6">Gestion de la Production - Optima 3</h2>
 
         <form [formGroup]="optimaForm" (input)="updateThreshold()" (ngSubmit)="onSubmit()">
-
+          <div class="mb-4">
+            <label>Devise</label>
+            <select id="currency" formControlName="currency" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="USD">Dollar américain (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="GBP">Livre sterling (GBP)</option>
+              <option value="JPY">Yen japonais (JPY)</option>
+              <option value="CAD">Dollar canadien (CAD)</option>
+              <option value="AUD">Dollar australien (AUD)</option>
+              <option value="CHF">Franc suisse (CHF)</option>
+              <option value="CNY">Yuan chinois (CNY)</option>
+              <option value="INR">Roupie indienne (INR)</option>
+              <option value="BRL">Réal brésilien (BRL)</option>
+              <option value="ZAR">Rand sud-africain (ZAR)</option>
+              <option value="SEK">Couronne suédoise (SEK)</option>
+              <option value="NOK">Couronne norvégienne (NOK)</option>
+              <option value="MXN">Peso mexicain (MXN)</option>
+              <option value="KRW">Won sud-coréen (KRW)</option>
+            </select>
+          </div>
           <div class="mb-6">
-            <label for="preparationCost" class="block text-sm font-medium text-gray-700">Coût de préparation (€)</label>
+            <label for="preparationCost" class="block text-sm font-medium text-gray-700">Coût de préparation </label>
             <input id="preparationCost" formControlName="preparationCost" type="number" class="mt-1 block w-full border p-2 rounded" />
           </div>
           <div *ngFor="let control of productControls.controls; let i = index" [formGroup]="castToFormGroup(control)" class="mb-6 p-4 border rounded bg-gray-50">
@@ -61,13 +80,13 @@
 
               <!-- Coût de stockage -->
               <div>
-                <label for="storageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de stockage (€)</label>
+                <label for="storageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de stockage </label>
                 <input id="storageCost-{{i}}" formControlName="storageCost" type="number" class="mt-1 block w-full border p-2 rounded" />
               </div>
 
               <!-- Coût de rupture de stock -->
               <div>
-                <label for="shortageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de rupture (€)</label>
+                <label for="shortageCost-{{i}}" class="block text-sm font-medium text-gray-700">Coût de rupture </label>
                 <input id="shortageCost-{{i}}" formControlName="shortageCost" type="number" class="mt-1 block w-full border p-2 rounded" />
               </div>
             </div>
@@ -84,7 +103,7 @@
           <button type="button" (click)="addProduct()" class="bg-blue-500 text-white px-4 py-2 rounded">+ Ajouter</button>
 
           <div class="mt-4">
-            <p class="text-lg"><strong>Valeur seuil calculée :</strong> {{ threshold | number: '1.2-2' }} €</p>
+            <p class="text-lg"><strong>Valeur seuil calculée :</strong> {{threshold | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</p>
           </div>
 
           <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-4">Calculer</button>
@@ -107,7 +126,7 @@
 
     </div>
     <!-- Affichage du rapport après calcul -->
-    <app-report3 *ngIf="reportData" [reportData]="reportData"></app-report3>
+    <app-report3 [algo]="algo" [currencySelected]="currencySelected" *ngIf="reportData" [reportData]="reportData"></app-report3>
   </main>
 
 </div>

@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center">
   <!-- En-tête -->
-  <header class="bg-blue-600 w-full text-white py-4">
+  <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">OPTIMA 2</h1>
       <nav>
@@ -39,6 +39,30 @@
 
         <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
           <div class="mb-4">
+            <label>Nom du produit</label>
+            <input formControlName="product" placeholder="ex: roulement" class="border p-2 w-full rounded"  />
+          </div>
+          <div class="mb-4">
+            <label>Monnaie</label>
+            <select id="currency" formControlName="currency" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="USD">Dollar américain (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="GBP">Livre sterling (GBP)</option>
+              <option value="JPY">Yen japonais (JPY)</option>
+              <option value="CAD">Dollar canadien (CAD)</option>
+              <option value="AUD">Dollar australien (AUD)</option>
+              <option value="CHF">Franc suisse (CHF)</option>
+              <option value="CNY">Yuan chinois (CNY)</option>
+              <option value="INR">Roupie indienne (INR)</option>
+              <option value="BRL">Réal brésilien (BRL)</option>
+              <option value="ZAR">Rand sud-africain (ZAR)</option>
+              <option value="SEK">Couronne suédoise (SEK)</option>
+              <option value="NOK">Couronne norvégienne (NOK)</option>
+              <option value="MXN">Peso mexicain (MXN)</option>
+              <option value="KRW">Won sud-coréen (KRW)</option>
+            </select>
+          </div>
+          <div class="mb-4">
             <label for="storageCost">Coût de stockage (C1) :</label>
             <input id="storageCost" type="number" formControlName="storageCost" class="border p-2 w-full rounded" />
           </div>
@@ -76,7 +100,7 @@
     </div>
 
     <div *ngIf="reportData" class="mt-8">
-      <app-report2 [reportData]="reportData"></app-report2>
+      <app-report2 [algo]="algo" [product]="productName" [currencySelected]="currency" [reportData]="reportData"></app-report2>
     </div>
   </main>
 

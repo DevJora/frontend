@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center">
   <!-- En-tête -->
-  <header class="bg-blue-600 w-full text-white py-4">
+  <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">Optima 5</h1>
       <nav>
@@ -73,6 +73,7 @@
           </div>
 
           <!-- Champs pour les prévisions mensuelles -->
+          <p>Les prévisions mensuelles</p>
           <div *ngFor="let control of demandControls.controls; let i = index" [formGroup]="castToFormGroup(control)"  class="grid grid-cols-2 gap-6 mb-4">
           <input type="text" formControlName="month" placeholder="Mois (ex : Janvier)" class="border p-2 rounded w-full" />
           <input type="number" formControlName="demand" placeholder="Prévision (unités)" class="border p-2 rounded w-full" />
@@ -81,7 +82,7 @@
 
 
           <div class="mt-4">
-            <button type="button" (click)="addMonth()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">
+            <button type="button" (click)="addMonth()" class="bg-blue-950 text-white px-4 py-2 rounded mr-2">
               Ajouter un Mois
             </button>
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">

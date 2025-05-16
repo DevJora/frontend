@@ -7,6 +7,10 @@ import {MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {usernameExistsValidator} from '../../validators/user.validator';
+import {UserService} from '../../services/user.service';
+import {PaymentService} from '../../services/payment.service';
+import {NgxStripeModule, StripeService} from 'ngx-stripe';
 
 @Component({
   selector: 'app-register',
@@ -32,6 +36,7 @@ export class RegisterComponent {
   userData!: { username: string; email: string; password: string; subscription: string; algos: string[] }
 
   private _formBuilder = inject(FormBuilder);
+  strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -41,12 +46,29 @@ export class RegisterComponent {
   });
   isLinear = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private paymentService: PaymentService,
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService,
+  ) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', {
+        validators: [Validators.required],
+        asyncValidators: [usernameExistsValidator(this.userService)],
+        updateOn: 'blur' // déclenche la vérif. async uniquement quand l'utilisateur sort du champ
+      }],
       email: ['', [Validators.required, Validators.email]],
-      pwd: ['', Validators.required]
-    });
+      pwd: ['', [Validators.required, Validators.pattern(this.strongPasswordRegex)]],
+      confirmPwd: ['', Validators.required],
+    }, { validator: this.passwordMatchValidator.bind(this) });
+  }
+
+  passwordMatchValidator(form: FormGroup): { [key: string]: any } | null {
+    const password = form.get('pwd')?.value;
+    const confirmPassword = form.get('confirmPwd')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   register() {
@@ -59,20 +81,20 @@ export class RegisterComponent {
 
   plans: SubscriptionPlan[] = [
     {
-      name: 'Essai gratuit',
+      name: 'Fremium',
       price: 0,
       description: 'Testez gratuitement deux algorithmes une seule fois.',
       features: ['Accès à 2 algorithmes', 'Accès unique', 'Durée limitée']
     },
     {
       name: 'Premium',
-      price: 9.99,
+      price: 49.99,
       description: 'Accès à 3 algorithmes pendant 30 jours.',
       features: ['3 algorithmes', 'Accès 30 jours', 'Support classique']
     },
     {
       name: 'Entreprise',
-      price: 19.99,
+      price: 129.99,
       description: 'Accès illimité à tous les algorithmes.',
       features: ['Tous les algorithmes', 'Accès illimité', 'Support prioritaire']
     }
@@ -99,12 +121,8 @@ export class RegisterComponent {
   }
 
   subscribeInfo() {
-    if (!this.selectedPlan) {
-      alert('Veuillez sélectionner une offre.');
-      return;
-    }
 
-    if (
+   /* if (
       this.selectedPlan.name === 'Standard' &&
       this.selectedAlgorithms.length !== 3
     ) {
@@ -113,13 +131,27 @@ export class RegisterComponent {
     }
 
     console.log('Offre sélectionnée :', this.selectedPlan.name);
-    console.log('Algorithmes choisis :', this.selectedAlgorithms);
+    console.log('Algorithmes choisis :', this.selectedAlgorithms);*/
     // Appel backend à faire ici
   }
 
   subscribe() {
+    if (!this.selectedPlan) {
+      alert('Veuillez sélectionner une offre.');
+      return;
+    }
+
     if(this.selectedPlan) this.userData.subscription = this.selectedPlan.name;
     this.userData.algos = this.selectedAlgorithms;
+     if(this.selectedPlan.name !== 'Freemium')
+       console.log(this.userData.password)
+       this.paymentService.initiateStripePayment(
+         this.selectedPlan.name,
+         this.selectedPlan.price,
+         this.userData.username,
+         this.userData.email,
+         this.userData.password,
+         this.userData.algos).then(r => console.log(r));
     this.authService.register(this.userData).subscribe(() => {
         this.router.navigate(['/login']);  // Redirige vers la connexion après inscription
       });

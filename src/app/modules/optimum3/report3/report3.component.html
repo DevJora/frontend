@@ -1,4 +1,25 @@
-<div *ngIf="reportData" class="w-auto mt-5 p-6 bg-white shadow-md rounded-md">
+<app-pdf-generator [name]="algo" *ngIf="reportData" [data]="document.getElementById('pdf')"/>
+<div
+  *ngIf="reportData"
+  id="pdf"
+  class="report-container w-auto mt-5 mx-auto a4-page p-6 bg-white shadow-md rounded-md"
+  style="
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: 210mm;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}
+"
+>
   <h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats - Optima 3</h2>
 
   <section class="mb-8">
@@ -9,11 +30,11 @@
   <section class="mb-8">
     <h3 class="text-xl font-semibold">Données Utilisées</h3>
     <ul>
-      <li><strong>Coût de préparation :</strong> {{ reportData.preparationCost }} €</li>
+      <li><strong>Coût de préparation :</strong> {{reportData.preparationCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</li>
       <li><strong>Produits analysés :</strong></li>
       <ul>
-        <li *ngFor="let product of reportData.results.productionRequired">{{ product }}
-        {{ product.name }} - Stock : {{ product.stock }} unités | Coût stockage : {{ product.storageCost }} €/u
+        <li *ngFor="let product of reportData.products">
+        {{ product.productName  }} - Stock : {{ product.stock }} unités | coût de rupture: {{product.shortageCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }} | Coût stockage : {{product.storageCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}/u
         </li>
       </ul>
     </ul>
@@ -29,7 +50,7 @@
     <ul>
       <li *ngFor="let product of reportData.results.productionDelayed">{{ product }}</li>
     </ul>
-    <p><strong>Coût total de production :</strong> {{ reportData.totalCost | number: '1.2-2' }} €</p>
+    <p><strong>Coût total de production :</strong> {{reportData.totalCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</p>
   </section>
 
   <section class="mb-8">

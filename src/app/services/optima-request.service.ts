@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {finalize, Observable} from 'rxjs';
 import {Optima1Request, Optima1Response} from '../models/Optima1';
 import {LoadingService} from './loading.service';
+import {LogDTO} from '../DTOs/logDTO';
 
 
 
@@ -58,6 +59,18 @@ export class OptimaService {
   calculateOptimumX(payload: any): Observable<any> {
     console.log('test')
     return this.http.post(`${this.apiUrl}X`, payload);
+  }
+
+  verifyOptimaPermission( algo: string, algos: string[]){
+    if(algos.includes(algo)) return true;
+    else return false;
+  }
+
+  verifyOptimaPermissionForFreemium(logs: LogDTO[], algo: string): boolean{
+    for(let log of logs ){
+      if(log.description == algo) return true;
+    }
+    return false;
   }
 
 

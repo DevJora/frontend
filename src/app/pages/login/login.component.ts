@@ -24,7 +24,6 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value)
       this.authService.login(this.loginForm.value).subscribe(() => {
 
         this.router.navigate(['/dashboard']);  // Redirige après connexion

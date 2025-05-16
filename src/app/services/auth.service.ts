@@ -50,10 +50,10 @@ export class AuthService {
 
 
       }), tap(() => this.notificationService.showSuccess('Connexion réussi')),
-          catchError(error => {
-            this.notificationService.showError('Erreur de login/mode de passe');
-            return throwError(error);
-          }), finalize(() => this.loadingService.hide())
+      catchError(error => {
+        this.notificationService.showError('Erreur de login/mode de passe');
+        return throwError(error);
+      }), finalize(() => this.loadingService.hide())
     );
 
 
@@ -78,12 +78,13 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    console.log(this.getToken())
     return !!this.getToken();
   }
 
-  isLogged(): boolean{
-    return this.isLoggedIn;
+  isLogged(): boolean {
+    if(this.isLoggedIn)
+      return !this.isTokenExpired();
+    else return false;
   }
 
   decodeToken(token: string | null): any {
@@ -92,5 +93,10 @@ export class AuthService {
     return JSON.parse(atob(payload)); // Décoder en JSON
   }
 
+  isTokenExpired(): boolean {
+    const decoded = this.decodeToken(this.getToken());
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp < currentTime;
+  }
 
 }

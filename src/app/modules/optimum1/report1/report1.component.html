@@ -1,28 +1,50 @@
-<div *ngIf="reportData" class="report-container w-auto mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
-  <h2 class="text-2xl font-bold mb-4">Rapport d'Analyse des Résultats</h2>
+<app-pdf-generator [name]="algo" *ngIf="reportData" [data]="document.getElementById('pdf')" />
+<div
+  *ngIf="reportData"
+  id="pdf"
+  class="report-container w-auto mt-5 mx-auto a4-page p-6 bg-white shadow-md rounded-md"
+  style="
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: auto;
+  height: auto;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}
+"
+>
+  <div class="d-flex align-item-center"><img width="50" src="logo.png"><h2 class="text-2xl font-bold mb-4 ">Rapport d'Analyse des Résultats </h2></div>
 
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Introduction</h3>
     <p>{{ reportData.introduction }}</p>
   </section>
 
-  <section class="mb-6">
+  <section class="mb-4">
     <h3 class="text-lg font-semibold">Données Utilisées</h3>
     <ul>
-      <li>Demande : {{ reportData.data.demand }} unités</li>
-      <li>Coût de production : {{ reportData.data.productionCost }} unités</li>
-      <li>Coût de stockage : {{ reportData.data.storageCost }} unités/an</li>
-      <li>Capacité journalière : {{ reportData.data.dailyCapacity }} unités</li>
+      <li>Demande : {{ reportData.data.demand }} unités de {{productName }}</li>
+      <li>Coût de production : {{ reportData.data.productionCost }} unités de {{productName }}</li>
+      <li>Coût de stockage : {{ reportData.data.storageCost }} unités de {{productName }}/an</li>
+      <li>Capacité journalière : {{ reportData.data.dailyCapacity }} unités de {{productName }}</li>
     </ul>
   </section>
 
-  <section class="mb-6">
+  <section class="mb-4">
     <h3 class="text-lg font-semibold">Résultats Obtenus</h3>
-    <p><strong>Fréquence optimale :</strong> {{ reportData.results.frequency | number }} unités/cycle</p>
+    <p><strong>Fréquence optimale :</strong> {{ reportData.results.frequency | number }} unités de {{productName }}/cycle</p>
     <p><strong>Intervalle optimal :</strong> {{ reportData.results.interval | number: '1.2-2' }} jour{{reportData.results.interval > 1? "s" : ""}}</p>
   </section>
 
-  <section class="mb-6">
+  <section class="mb-4">
     <h3 class="text-lg font-semibold">Impact des données</h3>
     <p>Si la capacité de production journalière (K) est significativement plus grande que la demande quotidienne (R) :</p>
     <h4>Grand écart (K ≫ R) :</h4>
@@ -40,13 +62,16 @@
     </p>
   </section>
 
-  <section class="mb-6">
+  <section class="mb-4">
     <h3 class="text-lg font-semibold">Interprétation des Résultats</h3>
     <p>{{ reportData.analysis }}</p>
   </section>
 
-  <section class="mb-6">
+  <section class="mb-4">
     <h3 class="text-lg font-semibold">Conclusion</h3>
     <p>{{ reportData.conclusion }}</p>
   </section>
+  <div class="d-flex justify-content-end">
+
 </div>
+

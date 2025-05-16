@@ -1,12 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DecimalPipe, NgForOf, NgIf} from '@angular/common';
+import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
+import {PdfGeneratorComponent} from "../../../components/pdf-generator/pdf-generator.component";
 
 @Component({
   selector: 'app-report3',
   imports: [
     NgForOf,
-    DecimalPipe,
-    NgIf
+    NgIf,
+    PdfGeneratorComponent,
+    CurrencyPipe
   ],
   templateUrl: './report3.component.html',
   standalone: true,
@@ -16,8 +18,10 @@ export class Report3Component implements OnInit{
   @Input() reportData: any | null = null;
 
   ngOnInit(): void {
-    console.log(this.reportData)
-
   }
 
+
+  protected readonly document = document;
+  @Input() currencySelected!: string;
+  @Input() algo!: string;
 }

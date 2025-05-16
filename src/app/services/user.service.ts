@@ -16,6 +16,10 @@ export class UserService {
 
   getUserInfo(id : number): Observable<UserDTO> {
     this.loadingService.show();
-    return this.http.get<UserDTO>(`${this.apiUrl}/user/${id}`).pipe(finalize(() => this.loadingService.hide()));;
+    return this.http.get<UserDTO>(`${this.apiUrl}/user/${id}`).pipe(finalize(() => this.loadingService.hide()));
+  }
+
+  checkUsernameExists(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/user/check-username?username=${username}`);
   }
 }

@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center">
   <!-- En-tête -->
-  <header class="bg-blue-600 w-full text-white py-4">
+  <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">OPTIMA 1</h1>
       <nav>
@@ -45,10 +45,10 @@
         </p>
         <p class="text-sm text-gray-600 mt-2">Le modèle fonctionne en remplissant ces conditions: </p>
         <ul class="text-sm list-disc pl-5 space-y-2 text-gray-700">
-          <li>La demande (R) est constante et connue.</li>
+          <li>La demande journalière est constante et connue.</li>
           <li>La production se fait par cycles réguliers.</li>
           <li>Les stocks tombent à zéro avant le démarrage du cycle suivant.</li>
-          <li>Les coûts de stockage (C1) et de préparation (C3) sont constants.</li>
+          <li>Les coûts de stockage et de préparation sont constants.</li>
         </ul>
       </div>
 
@@ -57,7 +57,11 @@
 
         <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
           <div class="mb-4">
-            <label>Demande totale :</label>
+            <label>Nom du produit</label>
+            <input formControlName="product" placeholder="ex: roulement" class="border p-2 w-full rounded"  />
+          </div>
+          <div class="mb-4">
+            <label>Demande totale (par jour) :</label>
             <input type="number" formControlName="demand" class="border p-2 w-full rounded" />
           </div>
 
@@ -83,7 +87,7 @@
 
     </div>
     <!-- Card 4 -->
-    <app-report1 *ngIf="reportData" [reportData]="reportData"></app-report1>
+    <app-report1 [algo]="algo" [productName]="productName" *ngIf="reportData" [reportData]="reportData"></app-report1>
   </main>
 
 </div>

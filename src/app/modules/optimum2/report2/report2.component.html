@@ -1,5 +1,26 @@
-<div *ngIf="reportData" class="w-auto mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
-  <h2 class="text-2xl font-bold mb-4">Rapport d'Analyse des Résultats - Optima 2</h2>
+<app-pdf-generator [name]="algo" *ngIf="reportData" [data]="document.getElementById('pdf')" />
+<div
+  *ngIf="reportData"
+  id="pdf"
+  class="report-container w-auto mt-5 mx-auto a4-page p-6 bg-white shadow-md rounded-md"
+  style="
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: 210mm;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}
+"
+>
+  <div class="d-flex align-item-center"><img width="50" src="logo.png"><h2 class="text-2xl font-bold mb-4">Rapport d'Analyse des Résultats - Optima 2</h2></div>
 
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Introduction</h3>
@@ -9,32 +30,33 @@
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Données Utilisées</h3>
     <ul>
-      <li>Coût de stockage : {{ reportData.data.storageCost }} €/unité</li>
-      <li>Coût de commande : {{ reportData.data.orderCost }} €</li>
-      <li>Coût de perte de vente : {{ reportData.data.shortageCost }} €</li>
+
+      <li>Coût de stockage : {{reportData.data.storageCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}/unité de {{product}}</li>
+      <li>Coût de commande : {{ reportData.data.orderCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }} </li>
+      <li>Coût de perte de vente : {{ reportData.data.shortageCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</li>
     </ul>
   </section>
 
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Résultats Obtenus</h3>
-    <p><strong>Niveau de stock optimal :</strong> {{ reportData.results.optimalStockLevel }} unités</p>
-    <p><strong>Fréquence optimale de commande :</strong> {{ reportData.results.optimalCycleFrequency }} semaines</p>
-    <p><strong>Coût total minimal :</strong> {{ reportData.results.totalCost | number: '1.0-2' }} €</p>
+    <p><strong>Niveau de stock optimal :</strong> {{ reportData.results.optimalStockLevel }} unité{{ reportData.results.optimalStockLevel >= 2? 's' : '' }} de {{product}}</p>
+    <p><strong>Fréquence optimale de commande :</strong> {{ reportData.results.optimalCycleFrequency }} semaine{{ reportData.results.optimalCycleFrequency >= 2? 's' : '' }}</p>
+    <p><strong>Coût total minimal :</strong> {{ reportData.results.totalCost | number: '1.0-2' | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</p>
   </section>
   <section class="mb-6">
     <h3 class="text-lg font-semibold">Impact des données</h3>
     <p>L'algorithme est capable de calculer automatiquement la distribution de probabilité à partir de données journalières soumises par l'utilisateur (sur plusieurs semaines).</p>
-    <h4 class="mt-2">Demande certaine et élevée (C1)</h4>
+    <h4 class="mt-2">Demande certaine et élevée </h4>
     <ul>
       <li>L'algorithme recommande une augmentation du stock de sécurité pour réduire les risques de rupture.</li>
       <li>Conséquence : Augmentation des coûts de stockage.</li>
     </ul>
-    <h4 class="mt-2">Coût élevé de demande (C3): </h4>
+    <h4 class="mt-2">Coût élevé de demande : </h4>
     <ul>
       <li>L'algorithme augmente la taille des commandes pour réduire la fréquence des commandes.</li>
       <li>Conséquence : Moins de commandes mais des quantités plus importantes.</li>
     </ul>
-    <h4 class="mt-2">Coût de perte de vente élevé (C2) :</h4>
+    <h4 class="mt-2">Coût de perte de vente élevé :</h4>
     <ul>
       <li>Une priorité est donnée à la prévention des ruptures de stock.</li>
       <li>Conséquence : Stock de sécurité plus important.</li>
@@ -46,7 +68,7 @@
   </section>
 
   <section class="mb-6">
-    <h3 class="text-lg font-semibold">Conclusion</h3>
+    <h3 class="text-lg font-semibold mt-6">Conclusion</h3>
     <p>{{ reportData.conclusion }}</p>
   </section>
 </div>

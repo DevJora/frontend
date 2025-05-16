@@ -35,8 +35,6 @@ export class ProfileComponent implements OnInit{
 
   ngOnInit() {
 
-
-
     const user = JSON.parse(<string>localStorage.getItem("user"));
     if (!user) {
       console.warn('Aucun utilisateur trouvé, redirection vers login...');
@@ -67,6 +65,7 @@ export class ProfileComponent implements OnInit{
     this.userService.getUserInfo(id).subscribe(
        (data) => {
         this.user = data;
+        console.log(data)
 
 
         for(let i = 0; i < this.user.logs.length; i++){

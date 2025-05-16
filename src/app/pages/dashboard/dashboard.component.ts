@@ -6,6 +6,7 @@ import {NotificationService} from '../../services/notification.service';
 import {NgIf} from '@angular/common';
 import {DialogContentComponent} from '../../components/dialog-content/dialog-content.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,18 +25,23 @@ export class DashboardComponent implements OnInit{
   constructor(
     private readonly  userService: UserService,
     private readonly notificationService: NotificationService,
+    private readonly authService: AuthService,
     public dialog: MatDialog,
     private readonly router: Router
   ) {
   }
 
   ngOnInit() {
-    const user = JSON.parse(<string>localStorage.getItem("user"));
-    if (!user) {
-      console.warn('Aucun utilisateur trouvé, redirection vers login...');
-      //this.router.navigate(['/login']);
+    if(!this.authService.isTokenExpired()) {
+      const user = JSON.parse(<string>localStorage.getItem("user"));
+      if (!user) {
+        console.warn('Aucun utilisateur trouvé, redirection vers login...');
+
+      }
+      this.getProfile(user.id);
+    }else {
+      this.router.navigate(['/login']);
     }
-    this.getProfile(user.id);
   }
 
   getProfile(id: number){
@@ -58,5 +64,10 @@ export class DashboardComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       this.router.navigate(['/dashboard/home']);
     });
+  }
+
+  verifyOptimaPermission( algo: string){
+    if(this.user.algos.includes(algo)) return true;
+    else return false;
   }
 }

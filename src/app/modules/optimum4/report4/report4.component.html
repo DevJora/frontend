@@ -1,5 +1,26 @@
-<div *ngIf="reportData" class="mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
-  <h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats - Optima 4</h2>
+<app-pdf-generator [name]="algo" *ngIf="reportData" [data]="document.getElementById('pdf')" />
+<div
+  *ngIf="reportData"
+  id="pdf"
+  class="report-container w-auto mt-5 mx-auto a4-page p-6 bg-white shadow-md rounded-md"
+  style="
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: 210mm;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}
+"
+>
+  <div class="d-flex align-item-center"><img width="50" src="logo.png"><h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats - Optima 4</h2></div>
 
   <section class="mb-8">
     <h3 class="text-xl font-semibold">Introduction</h3>
@@ -32,9 +53,9 @@
     </ul>
     <ul>
       <li><strong>Quantité de stock optimale (Q*) :</strong> {{ reportData.optimalStock }} unités</li>
-      <li><strong>Coût total de stockage :</strong> {{ reportData.totalStorageCost | number:'1.2-2' }} €</li>
+      <li><strong>Coût total de stockage :</strong> {{reportData.totalStorageCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</li>
       <li><strong>Arriérés :</strong> {{ reportData.backlogUnits }} unités</li>
-      <li><strong>Coût des arriérés :</strong> {{ reportData.backlogCost | number:'1.2-2' }} €</li>
+      <li><strong>Coût des arriérés :</strong> {{reportData.backlogCost | currency:currencySelected:'symbol':'1.2-2':'fr-FR' }}</li>
     </ul>
 
     <h3 class="text-xl font-semibold my-2">Impact d'une Variation de la Demande ou des Coûts</h3>

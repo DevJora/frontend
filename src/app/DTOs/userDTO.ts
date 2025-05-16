@@ -8,6 +8,7 @@ export class UserDTO {
   role!: string;
   subscription!: string;
 
+  algos!: string[];
   logs!: LogDTO[];
   expiration!: string;
 }

@@ -3,7 +3,7 @@
   <div class="overflow-y-auto max-h-screen w-full sm:w-1/2 lg:w-1/4 bg-gray-100 p-4 border-r">
     <h2 class="text-lg font-bold mb-4">Modules</h2>
     <div  *ngIf="user && user.subscription == 'PREMIUM'" class="grid gap-4">
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div  *ngIf="verifyOptimaPermission('Optima 1')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 1</h3>
         <p class="text-sm text-gray-600">Détermine une politique d'inventaire optimale lorsque la demande est connue.</p>
         <a
@@ -13,7 +13,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 2')"  class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 2</h3>
         <p class="text-sm text-gray-600">Compare les coûts probables pour différents niveaux de stock et différentes fréquences de commande.</p>
         <a
@@ -23,7 +23,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 3')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 3</h3>
         <p class="text-sm text-gray-600">Le modèle traite des problèmes où la demande est aléatoire.</p>
         <a
@@ -33,7 +33,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 4')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 4</h3>
         <p class="text-sm text-gray-600">Optimise les coûts de stockage en prenant en compte les coûts fixes, variables, et les pénalités liées aux arriérés et aux retards.</p>
         <a
@@ -43,7 +43,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 5')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 5</h3>
         <p class="text-sm text-gray-600">Planifie la production mensuelle pour minimiser les coûts de variation de cadence tout en satisfaisant la demande cumulée.</p>
         <a
@@ -53,7 +53,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 6')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 6</h3>
         <p class="text-sm text-gray-600">Optimise le transport et la distribution entre usines et entrepôts pour minimiser les coûts de logistique tout en respectant les capacités d'approvisionnement et la demande.</p>
         <a
@@ -63,7 +63,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 7')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 7</h3>
         <p class="text-sm text-gray-600">Optimise le transport et la distribution entre usines et entrepôts pour minimiser les coûts de logistique tout en respectant les capacités d'approvisionnement et la demande.</p>
         <a
@@ -73,7 +73,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 8')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 8</h3>
         <p class="text-sm text-gray-600"></p>
         <a
@@ -83,7 +83,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 9')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 9</h3>
         <p class="text-sm text-gray-600"></p>
         <a
@@ -93,7 +93,7 @@
           Voir
         </a>
       </div>
-      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div *ngIf="verifyOptimaPermission('Optima 10')" class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
         <h3 class="text-md font-semibold text-gray-800 mb-2">Optima X</h3>
         <p class="text-sm text-gray-600"></p>
         <a
@@ -204,6 +204,108 @@
         >
           Premium
         </button>
+      </div>
+    </div>
+    <div  *ngIf="user && user.subscription == 'ENTREPRISE'" class="grid gap-4">
+      <div   class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 1</h3>
+        <p class="text-sm text-gray-600">Détermine une politique d'inventaire optimale lorsque la demande est connue.</p>
+        <a
+          routerLink="/dashboard/optima1"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div   class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 2</h3>
+        <p class="text-sm text-gray-600">Compare les coûts probables pour différents niveaux de stock et différentes fréquences de commande.</p>
+        <a
+          routerLink="/dashboard/optimum2"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div  class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 3</h3>
+        <p class="text-sm text-gray-600">Le modèle traite des problèmes où la demande est aléatoire.</p>
+        <a
+          routerLink="/dashboard/optimum3"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div  class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 4</h3>
+        <p class="text-sm text-gray-600">Optimise les coûts de stockage en prenant en compte les coûts fixes, variables, et les pénalités liées aux arriérés et aux retards.</p>
+        <a
+          routerLink="/dashboard/optimum4"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div  class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 5</h3>
+        <p class="text-sm text-gray-600">Planifie la production mensuelle pour minimiser les coûts de variation de cadence tout en satisfaisant la demande cumulée.</p>
+        <a
+          routerLink="/dashboard/optimum5"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 6</h3>
+        <p class="text-sm text-gray-600">Optimise le transport et la distribution entre usines et entrepôts pour minimiser les coûts de logistique tout en respectant les capacités d'approvisionnement et la demande.</p>
+        <a
+          routerLink="/dashboard/optimum6"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 7</h3>
+        <p class="text-sm text-gray-600">Optimise le transport et la distribution entre usines et entrepôts pour minimiser les coûts de logistique tout en respectant les capacités d'approvisionnement et la demande.</p>
+        <a
+          routerLink="/dashboard/optimum7"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 8</h3>
+        <p class="text-sm text-gray-600"></p>
+        <a
+          routerLink="/dashboard/optimum8"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div  class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima 9</h3>
+        <p class="text-sm text-gray-600"></p>
+        <a
+          routerLink="/dashboard/optimum9"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <h3 class="text-md font-semibold text-gray-800 mb-2">Optima X</h3>
+        <p class="text-sm text-gray-600"></p>
+        <a
+          routerLink="/dashboard/optimumX"
+          class="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Voir
+        </a>
       </div>
     </div>
   </div>
