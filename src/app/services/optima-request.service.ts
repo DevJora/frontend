@@ -11,7 +11,7 @@ import {LogDTO} from '../DTOs/logDTO';
   providedIn: 'root'
 })
 export class OptimaService {
-  private apiUrl = 'http://localhost:8081/optima/';
+  private apiUrl = 'https://backend-opti-ye2p.onrender.com/optima/';
 
   constructor(private http: HttpClient, private loadingService: LoadingService) {}
 

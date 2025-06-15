@@ -10,7 +10,7 @@ import {LoadingService} from './loading.service';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8081';
+  private apiUrl = 'https://backend-opti-ye2p.onrender.com';
 
   constructor(private http: HttpClient, private router: Router, private readonly loadingService: LoadingService) { }
 

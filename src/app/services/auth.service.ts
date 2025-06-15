@@ -11,7 +11,7 @@ import {SubscriptionPlan} from '../pages/register/register.component';
 })
 export class AuthService {
   private isLoggedIn = false;
-  private apiUrl = 'http://localhost:8081';  // URL de ton backend
+  private apiUrl = 'https://backend-opti-ye2p.onrender.com';  // URL de ton backend
 
   constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService, private loadingService: LoadingService) {
 
@@ -29,13 +29,13 @@ export class AuthService {
     subscription: string;
     algos: string[]
   }): Observable<any> {
+    console.log(user)
     return this.http.post(`${this.apiUrl}/register`, user).pipe(
       tap(() => this.notificationService.showSuccess('Inscription réussie, vous pouvez vous connecter.')),
       tap(() => this.router.navigate(['/login'])),
       catchError(error => {
         this.notificationService.showError(error.message);
-        console.log(error.message);
-        return throwError(error.message);
+        return throwError(error);
       }), finalize(() => this.loadingService.hide())
     );
   }
