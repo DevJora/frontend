@@ -1,0 +1,22 @@
+{
+  "routes": {
+    "/frontend": {},
+    "/frontend/dashboard": {},
+    "/frontend/dashboard/home": {},
+    "/frontend/dashboard/optima1": {},
+    "/frontend/dashboard/optimum2": {},
+    "/frontend/dashboard/optimum3": {},
+    "/frontend/dashboard/optimum4": {},
+    "/frontend/dashboard/optimum5": {},
+    "/frontend/dashboard/optimum6": {},
+    "/frontend/dashboard/optimum7": {},
+    "/frontend/dashboard/optimum8": {},
+    "/frontend/dashboard/optimum9": {},
+    "/frontend/dashboard/optimumX": {},
+    "/frontend/dashboard/profile": {},
+    "/frontend/info": {},
+    "/frontend/login": {},
+    "/frontend/register": {},
+    "/frontend/success": {}
+  }
+}
