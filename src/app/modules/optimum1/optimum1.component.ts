@@ -74,7 +74,7 @@ export class Optimum1Component implements OnInit{
   onSubmit(): void {
     const user = JSON.parse(<string>localStorage.getItem("user"));
     this.productName = this.optimaForm.get('product')?.value;
-    if(this.optimaService.verifyOptimaPermissionForFreemium(user.logs, this.algo.toUpperCase()) && user.subscription == "PREMIUM") {
+    if(this.optimaService.verifyOptimaPermissionForFreemium(user.logs, this.algo.toUpperCase()) && user.subscription == "FREEMIUM") {
       this.openDialog("Votre abonnement actuel ne vous permet d'utiliser chaque algorithme qu'une seule fois. Passez à un abonnement pour bénéficier des services Optima sans limite. ");
     }else {
       if (this.optimaForm.valid) {

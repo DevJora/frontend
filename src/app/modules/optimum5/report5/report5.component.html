@@ -1,4 +1,25 @@
-<div class="w-auto mt-5 mx-auto p-6 bg-white shadow-md rounded-md">
+<app-pdf-generator [name]="algo" *ngIf="reportData" [data]="document.getElementById('pdf')" />
+<div
+  *ngIf="reportData"
+  id="pdf"
+  class="report-container w-auto mt-5 mx-auto a4-page p-6 bg-white shadow-md rounded-md"
+  style="
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: 210mm;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}
+"
+>
   <h2 class="text-3xl font-bold mb-6">Rapport d'Analyse des Résultats de l'Algorithme Optima 5</h2>
 
   <section class="mb-8">
@@ -11,61 +32,69 @@
   <section class="mb-8">
     <h3 class="text-xl font-semibold">Données Utilisées</h3>
     <ul>
-      <li><strong>Stock initial :</strong> {{ reportData.initialStock }} unité{{reportData.initialStock >= 2 ? "s" : ""}}</li>
-      <li><strong>Capacité de production :</strong> {{ reportData.productionCapacity }} unité{{reportData.productionCapacity
-      >= 2 ? "s" : ""}}/mois</li>
-      <li><strong>Coût d'augmentation :</strong> {{ reportData.adjustmentUpCost }} €/unité</li>
-      <li><strong>Coût de diminution :</strong> {{ reportData.adjustmentDownCost }} €/unité</li>
-      <li><strong>Capacité maximale de stockage :</strong> {{ reportData.maxStorage }} unité{{reportData.maxStorage >= 2 ? "s" : ""}}</li>
+      <li><strong>Stock initial :</strong> {{ reportData.initialStock }} unité{{reportData.initialStock >= 2 ? "s" : ""}} de {{productName }}</li>
+      <li><strong>Capacité de production initiale :</strong> {{ reportData.productionCapacity }} unité{{reportData.productionCapacity >= 2 ? "s" : ""}}  de {{productName }}/mois</li>
+      <li><strong>Capacité maximale de stockage :</strong> {{ reportData.maxStorage }} unité{{reportData.maxStorage >= 2 ? "s" : ""}} de {{productName }}</li>
+      <li><strong>Coûts de variation :</strong> 1 {{currencySelected}}/unité (augmentation), 0,5 {{currencySelected}}/unité (diminution)</li>
     </ul>
   </section>
 
   <section class="mb-8">
-    <h3 class="text-xl font-semibold">Prévisions de ventes mensuelles :</h3>
+    <h3 class="text-xl font-semibold">Prévisions de ventes mensuelles</h3>
     <ul>
       <li *ngFor="let entry of reportData.forecast">
-        {{ entry.month }} : {{ entry.demand }} unité{{ entry.demand >= 2 ? "s" : ""}}
+        <p>{{ entry.month }} : {{ entry.demand }} unité{{ entry.demand >= 2 ? "s" : "" }} de {{productName }}</p>
       </li>
     </ul>
   </section>
 
   <section class="mb-8">
-    <h3 class="text-xl font-semibold">Plan de production optimal :</h3>
+    <h3 class="text-xl font-semibold">Plan de production optimal</h3>
     <ul>
-      <li *ngFor="let production of reportData.productionPlan">
-        {{ production }} unité{{production >= 2 ? "s" : ""}}
+      <li *ngFor="let production of reportData.productionPlan; let i = index">
+        <p *ngIf="production>0">Mois {{ i + 1 }} : {{ production }} unité{{ production >= 2 ? "s" : "" }} de {{productName }}</p>
       </li>
     </ul>
     <p><strong>Coût total d'ajustement :</strong> {{ reportData.totalCost }} €</p>
+  </section>
+
+  <section class="mb-8" *ngIf="reportData.warnings?.length">
+    <h3 class="text-xl font-semibold text-red-600">Alertes détectées</h3>
+    <ul class="list-disc pl-6 text-red-700">
+      <li *ngFor="let warning of reportData.warnings">
+        {{ warning }}
+      </li>
+    </ul>
   </section>
 
   <section class="mb-8">
     <h3 class="text-xl font-semibold">Interprétation des Résultats</h3>
     <ul>
       <li><strong>Optimisation de la production mensuelle :</strong>
-        L'algorithme ajuste la production pour répondre aux variations de la demande tout en minimisant les coûts d'ajustement. Les mois où la demande est plus élevée que la capacité de production nécessitent une augmentation planifiée.</li>
-
+        L'algorithme ajuste la production pour répondre aux variations de la demande tout en minimisant les coûts d'ajustement.
+      </li>
       <li><strong>Stockage maximal :</strong>
-      Lorsque la production dépasse la demande, le surplus est ajouté au stock. L'algorithme garantit que le stock ne dépasse jamais la capacité maximale définie.</li>
-
+        Lorsque la production dépasse la demande, le surplus est ajouté au stock sans dépasser la capacité maximale définie.
+      </li>
       <li><strong>Réduction des coûts :</strong>
-        En lissant la production, l'algorithme évite des variations extrêmes, ce qui réduit les coûts d'augmentation et de diminution de la production.</li>
+        En lissant la production, l'algorithme évite des variations extrêmes, ce qui réduit les coûts d'ajustement.
+      </li>
     </ul>
     <p>L'algorithme ajuste la production pour minimiser les coûts tout en répondant aux fluctuations de la demande.</p>
 
     <h3 class="my-2 text-xl font-semibold">Impact d'une Variation des Prévisions</h3>
-    <li><strong>Demande supérieure aux prévisions :</strong>
-
-    L'algorithme ajuste le plan de production avec des augmentations anticipées afin de minimiser les coûts futurs.
-
-    <li><strong>Demande inférieure aux prévisions :</strong>
-
-    La production est réduite progressivement pour éviter des coûts de stockage trop élevés, tout en maintenant un niveau de sécurité suffisan
+    <ul>
+      <li><strong>Demande supérieure aux prévisions :</strong>
+        L'algorithme ajuste le plan de production avec des augmentations anticipées afin de minimiser les coûts futurs.
+      </li>
+      <li><strong>Demande inférieure aux prévisions :</strong>
+        La production est réduite progressivement pour éviter des coûts de stockage trop élevés, tout en maintenant un niveau de sécurité suffisant.
+      </li>
+    </ul>
   </section>
 
   <section class="mb-8">
-    <h3 class="text-xl  font-semibold">Conclusion</h3>
-    <p>L'algorithme Optima 5 permet d'optimiser la gestion des stocks et la production mensuelle tout en réduisant les coûts d'ajustement. Grâce à la saisie personnalisée des prévisions mensuelles et des paramètres de production, il s'adapte aux réalités de l'entreprise et garantit une gestion fluide des niveaux de production.
-      Ce rapport démontre l'efficacité d'Optima 5 pour la gestion de la production mensuelle et la réduction des coûts d'ajustement.</p>
+    <h3 class="text-xl font-semibold">Conclusion</h3>
+    <p>L'algorithme Optima 5 permet d'optimiser la gestion des stocks et la production mensuelle tout en réduisant les coûts d'ajustement. Grâce à la saisie personnalisée des prévisions mensuelles et des paramètres de production, il s'adapte aux réalités de l'entreprise et garantit une gestion fluide des niveaux de production. Ce rapport démontre l'efficacité d'Optima 5 pour la gestion de la production mensuelle et la réduction des coûts d'ajustement.</p>
   </section>
 </div>

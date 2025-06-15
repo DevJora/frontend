@@ -65,7 +65,6 @@ export class ProfileComponent implements OnInit{
     this.userService.getUserInfo(id).subscribe(
        (data) => {
         this.user = data;
-        console.log(data)
 
 
         for(let i = 0; i < this.user.logs.length; i++){

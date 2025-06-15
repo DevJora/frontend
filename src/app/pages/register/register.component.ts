@@ -60,13 +60,13 @@ export class RegisterComponent {
         updateOn: 'blur' // déclenche la vérif. async uniquement quand l'utilisateur sort du champ
       }],
       email: ['', [Validators.required, Validators.email]],
-      pwd: ['', [Validators.required, Validators.pattern(this.strongPasswordRegex)]],
+      password: ['', [Validators.required, Validators.pattern(this.strongPasswordRegex)]],
       confirmPwd: ['', Validators.required],
     }, { validator: this.passwordMatchValidator.bind(this) });
   }
 
   passwordMatchValidator(form: FormGroup): { [key: string]: any } | null {
-    const password = form.get('pwd')?.value;
+    const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPwd')?.value;
     return password === confirmPassword ? null : { mismatch: true };
   }
@@ -74,7 +74,6 @@ export class RegisterComponent {
   register() {
     if (this.registerForm.valid) {
       this.userData = this.registerForm.value;
-
     }
   }
 
@@ -122,18 +121,23 @@ export class RegisterComponent {
 
   subscribeInfo() {
 
-   /* if (
-      this.selectedPlan.name === 'Standard' &&
+    if (
+      this.selectedPlan?.name === 'PREMIUM' &&
       this.selectedAlgorithms.length !== 3
     ) {
       alert('Veuillez choisir exactement 3 algorithmes.');
       return;
     }
 
-    console.log('Offre sélectionnée :', this.selectedPlan.name);
-    console.log('Algorithmes choisis :', this.selectedAlgorithms);*/
-    // Appel backend à faire ici
+    console.log('Offre sélectionnée :', this.selectedPlan?.name);
+    console.log('Algorithmes choisis :', this.selectedAlgorithms);
+
+
+    if (this.registerForm.valid) {
+      this.userData = this.registerForm.value;
+    }
   }
+
 
   subscribe() {
     if (!this.selectedPlan) {
@@ -141,20 +145,24 @@ export class RegisterComponent {
       return;
     }
 
-    if(this.selectedPlan) this.userData.subscription = this.selectedPlan.name;
-    this.userData.algos = this.selectedAlgorithms;
-     if(this.selectedPlan.name !== 'Freemium')
-       console.log(this.userData.password)
-       this.paymentService.initiateStripePayment(
+     if(this.selectedPlan.name !== 'Freemium') {
+       /*this.paymentService.initiateStripePayment(
          this.selectedPlan.name,
          this.selectedPlan.price,
-         this.userData.username,
-         this.userData.email,
-         this.userData.password,
-         this.userData.algos).then(r => console.log(r));
+         this.registerForm.get('username')?.value,
+         this.registerForm.get('email')?.value,
+         this.registerForm.get('password')?.value,
+         this.selectedAlgorithms)*///.then(r => console.log(r));
+     }
+
+    this.userData.subscription = this.selectedPlan.name;
     this.authService.register(this.userData).subscribe(() => {
-        this.router.navigate(['/login']);  // Redirige vers la connexion après inscription
-      });
+      this.router.navigate(['/login']);  // Redirige vers la connexion après inscription
+    });
+  }
+
+  addUserData() {
+    this.userData = this.registerForm.value;
   }
 }
 

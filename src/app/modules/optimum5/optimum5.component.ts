@@ -25,6 +25,8 @@ import {NotificationService} from '../../services/notification.service';
 export class Optimum5Component implements OnInit{optimaForm: FormGroup;
   reportData: any | null = null;
   algo= "Optima 5";
+  currencySelected!: string;
+  productName= '';
 
   constructor(private fb: FormBuilder,
               private optimaService: OptimaService,
@@ -33,6 +35,8 @@ export class Optimum5Component implements OnInit{optimaForm: FormGroup;
               public dialog: MatDialog,) {
     this.optimaForm = this.fb.group({
       initialStock: [1000, [Validators.required, Validators.min(0)]],
+      currency: ['EUR', Validators.required],
+      product: ['', Validators.required],
       productionCapacity: [5000, [Validators.required, Validators.min(0)]],
       adjustmentUpCost: [1000, [Validators.required, Validators.min(0)]],
       adjustmentDownCost: [500, [Validators.required, Validators.min(0)]],
@@ -90,15 +94,40 @@ export class Optimum5Component implements OnInit{optimaForm: FormGroup;
 
 
   onSubmit(): void {
+    this.productName = this.optimaForm.get('product')?.value;
+    this.currencySelected = this.optimaForm.get("currency")?.value;
     if (this.optimaForm.valid) {
-      const payload = {
-        demandForecast: this.demandControls.value.map((item: any) => item.demand),
-        initialStock: this.optimaForm.value.initialStock,
-        productionCapacity: this.optimaForm.value.productionCapacity,
-        adjustmentUpCost: this.optimaForm.value.adjustmentUpCost,
-        adjustmentDownCost: this.optimaForm.value.adjustmentDownCost,
-        maxStorage: this.optimaForm.value.maxStorage
+      // Dictionnaire mois => index
+      const monthMap: { [key: string]: number } = {
+        "Janvier": 1,
+        "Février": 2,
+        "Mars": 3,
+        "Avril": 4,
+        "Mai": 5,
+        "Juin": 6,
+        "Juillet": 7,
+        "Août": 8,
+        "Septembre": 9,
+        "Octobre": 10,
+        "Novembre": 11,
+        "Décembre": 12
       };
+
+      const forecastMap: { [key: number]: number } = {};
+      this.demandControls.value.forEach((item: any) => {
+        const monthNumber = monthMap[item.month];
+        if (monthNumber && item.demand >= 0) {
+          forecastMap[monthNumber] = item.demand;
+        }
+      });
+
+      const payload = {
+        forecast: forecastMap,
+        initialStock: this.optimaForm.value.initialStock,
+        initialProduction: this.optimaForm.value.productionCapacity,
+        maxStock: this.optimaForm.value.maxStorage
+      };
+
       this.optimaService.calculateOptimum5(payload).subscribe({
         next: (response) => {
           this.notificationService.showSuccess("Optima 5 généré.");
@@ -112,6 +141,7 @@ export class Optimum5Component implements OnInit{optimaForm: FormGroup;
             adjustmentUpCost: this.optimaForm.value.adjustmentUpCost,
             adjustmentDownCost: this.optimaForm.value.adjustmentDownCost,
             maxStorage: this.optimaForm.value.maxStorage,
+            warnings: response.warnings,
             analysis: "L'ajustement de production a permis de minimiser les coûts tout en maintenant un stock suffisant.",
             conclusion: "Ce rapport met en lumière l'importance de lisser la production pour éviter des coûts excessifs."
           };
@@ -120,10 +150,11 @@ export class Optimum5Component implements OnInit{optimaForm: FormGroup;
           console.error('Erreur lors du calcul :', err);
         }
       });
-    }else {
+    } else {
       this.notificationService.showError("Veuillez remplir tous les champs.");
     }
   }
+
 
   castToFormGroup(control: any): FormGroup {
     return control as FormGroup;

@@ -1,0 +1,14 @@
+@page {
+  size: A4;
+  margin: 20mm;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.a4-page {
+  width: 210mm;
+  margin: auto;
+  padding: 20mm;
+  box-shadow: 0 0 5mm rgba(0,0,0,0.1);
+}

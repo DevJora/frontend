@@ -17,6 +17,7 @@ import {RegisterComponent} from './pages/register/register.component';
 import {AuthGuard} from './auth.guard';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {InfoComponent} from './pages/info/info.component';
+import {SuccessPaymentComponent} from './pages/success-payment/success-payment.component';
 
 
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'info', component: InfoComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'success', component: SuccessPaymentComponent },
   {path: 'dashboard', component: DashboardComponent, children: [
       { path: '', redirectTo: 'profile', pathMatch: 'full'},
       { path: 'home', component: HomeDashboardComponent},

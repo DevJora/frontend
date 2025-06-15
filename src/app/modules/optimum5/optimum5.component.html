@@ -3,9 +3,6 @@
   <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">Optima 5</h1>
-      <nav>
-        <!--<a href="module/optimum1" class="text-sm font-medium hover:underline mr-4">Accéder au calcul</a>-->
-      </nav>
     </div>
   </header>
 
@@ -21,12 +18,10 @@
 
     <!-- Section détails -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <!-- Card 3 -->
       <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
         <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
         <p class="text-sm text-gray-600 mt-2">
           L'objectif d'OPTIMA V est de minimiser les coûts liés aux variations de production tout en garantissant :
-
         </p>
         <ul class="text-sm mt-2 list-disc pl-5 space-y-2 text-gray-700">
           <li>Une capacité de stockage adéquate.</li>
@@ -39,47 +34,69 @@
         <h2 class="text-2xl font-bold mb-6">Prévision Mensuelle - Optima 5</h2>
 
         <form [formGroup]="optimaForm" (ngSubmit)="onSubmit()">
+          <div class="mb-4">
+            <label>Nom du produit</label>
+            <input formControlName="product" placeholder="ex: roulement" class="border p-2 w-full rounded"  />
+          </div>
+          <div class="mb-4">
+            <label>Devise</label>
+            <select id="currency" formControlName="currency" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="USD">Dollar américain (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="GBP">Livre sterling (GBP)</option>
+              <option value="JPY">Yen japonais (JPY)</option>
+              <option value="CAD">Dollar canadien (CAD)</option>
+              <option value="AUD">Dollar australien (AUD)</option>
+              <option value="CHF">Franc suisse (CHF)</option>
+              <option value="CNY">Yuan chinois (CNY)</option>
+              <option value="INR">Roupie indienne (INR)</option>
+              <option value="BRL">Réal brésilien (BRL)</option>
+              <option value="ZAR">Rand sud-africain (ZAR)</option>
+              <option value="SEK">Couronne suédoise (SEK)</option>
+              <option value="NOK">Couronne norvégienne (NOK)</option>
+              <option value="MXN">Peso mexicain (MXN)</option>
+              <option value="KRW">Won sud-coréen (KRW)</option>
+            </select>
+          </div>
           <!-- Champs des paramètres généraux -->
           <div class="grid grid-cols-2 gap-6 mb-6">
             <div>
               <label for="initialStock" class="block text-sm font-medium text-gray-700">Stock initial :</label>
-              <input id="initialStock" formControlName="initialStock" type="number"
-                     class="mt-1 block w-full border p-2 rounded" />
+              <input id="initialStock" formControlName="initialStock" type="number" class="mt-1 block w-full border p-2 rounded" />
             </div>
 
             <div>
               <label for="productionCapacity" class="block text-sm font-medium text-gray-700">Capacité de production :</label>
-              <input id="productionCapacity" formControlName="productionCapacity" type="number"
-                     class="mt-1 block w-full border p-2 rounded" />
+              <input id="productionCapacity" formControlName="productionCapacity" type="number" class="mt-1 block w-full border p-2 rounded" />
             </div>
 
             <div>
               <label for="adjustmentUpCost" class="block text-sm font-medium text-gray-700">Coût d'augmentation (€/unité) :</label>
-              <input id="adjustmentUpCost" formControlName="adjustmentUpCost" type="number"
-                     class="mt-1 block w-full border p-2 rounded" />
+              <input id="adjustmentUpCost" formControlName="adjustmentUpCost" type="number" class="mt-1 block w-full border p-2 rounded" />
             </div>
 
             <div>
               <label for="adjustmentDownCost" class="block text-sm font-medium text-gray-700">Coût de diminution (€/unité) :</label>
-              <input id="adjustmentDownCost" formControlName="adjustmentDownCost" type="number"
-                     class="mt-1 block w-full border p-2 rounded" />
+              <input id="adjustmentDownCost" formControlName="adjustmentDownCost" type="number" class="mt-1 block w-full border p-2 rounded" />
             </div>
 
             <div class="col-span-2">
               <label for="maxStorage" class="block text-sm font-medium text-gray-700">Capacité maximale de stockage :</label>
-              <input id="maxStorage" formControlName="maxStorage" type="number"
-                     class="mt-1 block w-full border p-2 rounded" />
+              <input id="maxStorage" formControlName="maxStorage" type="number" class="mt-1 block w-full border p-2 rounded" />
             </div>
           </div>
 
           <!-- Champs pour les prévisions mensuelles -->
           <p>Les prévisions mensuelles</p>
-          <div *ngFor="let control of demandControls.controls; let i = index" [formGroup]="castToFormGroup(control)"  class="grid grid-cols-2 gap-6 mb-4">
-          <input type="text" formControlName="month" placeholder="Mois (ex : Janvier)" class="border p-2 rounded w-full" />
-          <input type="number" formControlName="demand" placeholder="Prévision (unités)" class="border p-2 rounded w-full" />
-        </div>
-
-
+          <div *ngFor="let control of demandControls.controls; let i = index" [formGroup]="castToFormGroup(control)" class="grid grid-cols-2 gap-6 mb-4">
+            <select formControlName="month" class="border p-2 rounded w-full">
+              <option value="" disabled selected>Choisir un mois</option>
+              <option *ngFor="let m of ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']; let idx = index" [value]="m">
+                {{ m }}
+              </option>
+            </select>
+            <input type="number" formControlName="demand" placeholder="Prévision (unités)" class="border p-2 rounded w-full" />
+          </div>
 
           <div class="mt-4">
             <button type="button" (click)="addMonth()" class="bg-blue-950 text-white px-4 py-2 rounded mr-2">
@@ -92,12 +109,14 @@
         </form>
 
       </div>
-
-
-
     </div>
 
-    <app-report5 *ngIf="reportData" [reportData]="reportData" />
+    <app-report5
+      [algo]="algo"
+      [currencySelected]="currencySelected"
+      [productName]="productName"
+      *ngIf="reportData"
+      [reportData]="reportData"
+    />
   </main>
-
 </div>

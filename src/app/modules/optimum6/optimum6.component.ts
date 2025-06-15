@@ -22,86 +22,81 @@ import {Router} from '@angular/router';
 export class Optimum6Component implements OnInit {
   optimaForm: FormGroup;
   reportData: any | null = null;
-  algo= "Optima 6";
+  algo = "Optima 6";
 
-  constructor(private fb: FormBuilder,
-              private optimaService: OptimaService,
-              public dialog: MatDialog,
-              private readonly router: Router
+  constructor(
+    private fb: FormBuilder,
+    private optimaService: OptimaService,
+    public dialog: MatDialog,
+    private readonly router: Router
   ) {
     this.optimaForm = this.fb.group({
-      production: this.fb.array([]),
-      demand: this.fb.array([]),
-      transportCost: this.fb.array([])
+      origins: this.fb.array([]),
+      destinations: this.fb.array([]),
+      costMatrix: this.fb.array([])
     });
 
-    this.addProduction();
-    this.addDemand();
+    this.addOrigin();
+    this.addDestination();
   }
 
   ngOnInit() {
     const user = JSON.parse(<string>localStorage.getItem("user"));
     if (!user) {
       this.router.navigate(['/login']);
-      console.warn('Aucun utilisateur trouvé, redirection vers login...');
+      return;
     }
 
-    if(user.subscription == "FREEMIUM"){
-      if(this.optimaService.verifyOptimaPermissionForFreemium(user.logs, this.algo))
-        this.openDialog("Votre abonnement actuel ne vous permet d'utiliser chaque algorithme qu'une seule fois. Passez à l'abonnement PREMIUM/ENTREPRISE pour bénéficier des service Optima sans limite. ");
-    }else if (user.subscription == "PREMIUM" && !this.optimaService.verifyOptimaPermission(this.algo, user.algos)){
-      this.openDialog("Votre abonnement actuel ne vous permet pas d'accéder à cet algorithme.");
+    if (user.subscription === "FREEMIUM") {
+      if (this.optimaService.verifyOptimaPermissionForFreemium(user.logs, this.algo)) {
+        this.openDialog("Votre abonnement ne permet d'utiliser cet algorithme qu'une seule fois. Passez à PREMIUM/ENTREPRISE pour un accès illimité.");
+      }
+    } else if (user.subscription === "PREMIUM" && !this.optimaService.verifyOptimaPermission(this.algo, user.algos)) {
+      this.openDialog("Votre abonnement ne vous permet pas d'accéder à cet algorithme.");
     }
-
   }
 
-  openDialog(message : string) {
+  openDialog(message: string) {
     const dialogRef = this.dialog.open(DialogContentComponent, {
       width: '500px',
-      data: {name: '', value : message, type: 'unauthorized-redirection'}
+      data: { name: '', value: message, type: 'unauthorized-redirection' }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/dashboard/home']);
-    });
+    dialogRef.afterClosed().subscribe(() => this.router.navigate(['/dashboard/home']));
   }
 
-
-
-
-  get productionControls(): FormArray {
-    return this.optimaForm.get('production') as FormArray;
+  get originsControls(): FormArray {
+    return this.optimaForm.get('origins') as FormArray;
   }
 
-  get demandControls(): FormArray {
-    return this.optimaForm.get('demand') as FormArray;
+  get destinationsControls(): FormArray {
+    return this.optimaForm.get('destinations') as FormArray;
   }
 
-  get transportCost(): FormArray {
-    return this.optimaForm.get('transportCost') as FormArray;
+  get costMatrix(): FormArray {
+    return this.optimaForm.get('costMatrix') as FormArray;
   }
 
-  addProduction(): void {
-    this.productionControls.push(this.fb.control(0, Validators.required));
-    this.updateCostMatrix();
+  addOrigin(): void {
+    this.originsControls.push(this.fb.control('', Validators.required));
+    this.updateMatrix();
   }
 
-  addDemand(): void {
-    this.demandControls.push(this.fb.control(0, Validators.required));
-    this.updateCostMatrix();
+  addDestination(): void {
+    this.destinationsControls.push(this.fb.control('', Validators.required));
+    this.updateMatrix();
   }
 
-  updateCostMatrix(): void {
-    const numUsines = this.productionControls.length;
-    const numEntrepots = this.demandControls.length;
+  updateMatrix(): void {
+    const numOrigins = this.originsControls.length;
+    const numDestinations = this.destinationsControls.length;
+    this.costMatrix.clear();
 
-    this.transportCost.clear();
-
-    for (let i = 0; i < numUsines; i++) {
+    for (let i = 0; i < numOrigins; i++) {
       const row = this.fb.group({});
-      for (let j = 0; j < numEntrepots; j++) {
+      for (let j = 0; j < numDestinations; j++) {
         row.addControl(`${j}`, this.fb.control(0, Validators.required));
       }
-      this.transportCost.push(row);
+      this.costMatrix.push(row);
     }
   }
 
@@ -111,9 +106,11 @@ export class Optimum6Component implements OnInit {
 
   onSubmit(): void {
     const payload = {
-      production: this.productionControls.value,
-      demand: this.demandControls.value,
-      transportCost: this.transportCost.value
+      origins: this.originsControls.value,
+      destinations: this.destinationsControls.value,
+      supply: this.originsControls.value.map((_: any, i: number) => Number(this.originsControls.at(i).value)),
+      demand: this.destinationsControls.value.map((_: any, j: number) => Number(this.destinationsControls.at(j).value)),
+      costMatrix: this.costMatrix.value.map((row: any) => Object.values(row).map(Number))
     };
 
     this.optimaService.calculateOptimum6(payload).subscribe({

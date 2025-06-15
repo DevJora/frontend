@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit{
     this.userService.getUserInfo(id).subscribe(
       (data) => {
         this.user = data;
-        console.log(this.user)
       },
       (error)=>{this.notificationService.showError('Erreur du serveur: problème de récupération du profil.')}
     )

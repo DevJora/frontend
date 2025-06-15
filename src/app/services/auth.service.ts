@@ -29,13 +29,13 @@ export class AuthService {
     subscription: string;
     algos: string[]
   }): Observable<any> {
-    console.log(user)
     return this.http.post(`${this.apiUrl}/register`, user).pipe(
       tap(() => this.notificationService.showSuccess('Inscription réussie, vous pouvez vous connecter.')),
       tap(() => this.router.navigate(['/login'])),
       catchError(error => {
         this.notificationService.showError(error.message);
-        return throwError(error);
+        console.log(error.message);
+        return throwError(error.message);
       }), finalize(() => this.loadingService.hide())
     );
   }
