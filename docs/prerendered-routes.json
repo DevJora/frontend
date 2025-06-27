@@ -1,6 +1,7 @@
 {
   "routes": {
     "/frontend": {},
+    "/frontend/contact": {},
     "/frontend/dashboard": {},
     "/frontend/dashboard/home": {},
     "/frontend/dashboard/optima1": {},
