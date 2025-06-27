@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center">
   <!-- En-tête -->
-  <header class="bg-blue-600 w-full text-white py-4">
+  <header class="bg-blue-950 w-full text-white py-4">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">OPTIMA 8</h1>
       <nav>
@@ -11,49 +11,110 @@
 
   <!-- Contenu principal -->
   <main class="flex-1 max-w-5xl mx-auto px-4 py-8">
-    <!-- Titre -->
-    <div class="text-center mb-8">
-      <h2 class="text-2xl font-bold text-gray-800">Bienvenue dans OPTIMA 8</h2>
-      <p class="text-gray-600 mt-2">
-        Le modèle OPTIMA 1 permet d'optimiser la gestion des stocks pour minimiser les coûts, en utilisant un modèle mathématique simple basé sur des hypothèses claires. Cela aide les entreprises à déterminer la quantité à produire et la fréquence des cycles tout en équilibrant les coûts de stockage et de préparation.
+    <!-- Introduction -->
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-gray-800">Bienvenue dans OPTIMA VIII</h2>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">
+        OPTIMA VIII est un modèle de programmation dynamique utilisé pour résoudre des problèmes de décision séquentielle.
+        Il permet de répartir une ressource limitée sur plusieurs étapes ou agents afin de maximiser ou minimiser un objectif global.
       </p>
     </div>
 
     <!-- Section détails -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <!-- Card 1 -->
+      <!-- Card 1 : Décision séquentielle -->
       <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
-        <h3 class="text-lg font-semibold text-gray-800">Les stocks</h3>
-        <p class="text-sm text-gray-600 mt-2">
-          Les stocks incluent les matières premières, les produits semi-finis et les produits finis. Ils permettent d'assurer la continuité de la production ou des ventes.
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8 7V3m8 4V3m-6 14h.01M12 8v4m0 4h0m0 0v.01M4 17h16M4 13h16M4 9h16" />
+          </svg>
+          <h3 class="text-lg font-semibold text-gray-800">Décisions séquentielles</h3>
+        </div>
+        <p class="text-sm text-gray-600">
+          OPTIMA VIII modélise des situations où chaque décision dépend des précédentes, dans le but d’allouer intelligemment une ressource limitée au fil des étapes.
         </p>
       </div>
 
-      <!-- Card 2 -->
+      <!-- Card 2 : Programmation dynamique -->
       <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
-        <h3 class="text-lg font-semibold text-gray-800">Importance des niveaux de stocks</h3>
-        <p class="text-sm text-gray-600 mt-2">
-          Bien que des stocks élevés réduisent les coûts unitaires et assurent une disponibilité rapide des produits, ils entraînent également des coûts (espace de stockage, détérioration, capital immobilisé, etc.).
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 10h4l3 8 4-16 3 8h4" />
+          </svg>
+          <h3 class="text-lg font-semibold text-gray-800">Approche par programmation dynamique</h3>
+        </div>
+        <p class="text-sm text-gray-600">
+          L’algorithme compare toutes les répartitions possibles à chaque étape et conserve à chaque fois la meilleure. Cela permet d’atteindre une solution optimale efficacement.
         </p>
       </div>
 
       <!-- Card 3 -->
       <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
-        <h3 class="text-lg font-semibold text-gray-800">Objectif</h3>
-        <p class="text-sm text-gray-600 mt-2">
-          Trouver un équilibre entre les économies réalisées grâce à une production en grandes séries et les coûts liés aux stocks.
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8 16h.01M12 16h.01M16 16h.01M9 20h6m2 0a2 2 0 002-2v-5a2 2 0 00-2-2H7a2 2 0 00-2 2v5a2 2 0 002 2z" />
+          </svg>
+          <h3 class="text-lg font-semibold text-gray-800">Conditions du modèle</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-2">
+          OPTIMA VIII est applicable si les conditions suivantes sont respectées :
         </p>
-        <p class="text-sm text-gray-600 mt-2">Le modèle fonctionne en remplissant ces conditions: </p>
         <ul class="text-sm list-disc pl-5 space-y-2 text-gray-700">
-          <li>La demande (R) est constante et connue.</li>
-          <li>La production se fait par cycles réguliers.</li>
-          <li>Les stocks tombent à zéro avant le démarrage du cycle suivant.</li>
-          <li>Les coûts de stockage (C1) et de préparation (C3) sont constants.</li>
+          <li>La ressource à répartir est finie et indivisible (ex. cartons, budget, temps, jetons).</li>
+          <li>Chaque étape a une fonction de performance (gain, coût, probabilité, etc.).</li>
+          <li>Les allocations sont cumulatives et irréversibles.</li>
+          <li>L’objectif global est d’optimiser la somme ou le produit des valeurs obtenues à chaque étape.</li>
         </ul>
       </div>
+      <!-- Card 4 -->
+      <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <h2 class="text-2xl font-bold mb-6">Solution optimale</h2>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="flex gap-4">
+            <label class="block flex-1">
+              Étapes :
+              <input type="number" formControlName="steps" class="w-full p-2 border rounded" />
+            </label>
+            <label class="block flex-1">
+              Capacité :
+              <input type="number" formControlName="capacity" class="w-full p-2 border rounded" />
+            </label>
+          </div>
 
+          <label class="block">
+            <input type="checkbox" formControlName="maximization" />
+            Maximiser (ex. profit, gain) / Décocher pour minimiser (ex. proba, coût)
+          </label>
+
+          <div formArrayName="table" class="space-y-2">
+            <div *ngFor="let row of table.controls; let i = index">
+              <label class="block">
+                Étape {{ i + 1 }} :
+                <input [formControlName]="i" class="w-full p-2 border rounded" placeholder="Ex: 0,4,6,7" />
+              </label>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" (click)="addRow()" class="text-sm text-blue-600">+ Ajouter étape</button>
+              <button type="button" (click)="removeRow(table.length - 1)" [disabled]="table.length <= 1" class="text-sm text-red-600">– Supprimer dernière</button>
+            </div>
+          </div>
+
+          <button type="submit" class="bg-blue-950 text-white px-4 py-2 rounded">Soumettre</button>
+        </form>
+      </div>
     </div>
-    <!-- Card 4 -->
+
+    <div *ngIf="result" class="mt-6 bg-green-100 p-4 rounded">
+      <h3 class="font-semibold">Résultat :</h3>
+      <p><strong>Valeur optimale :</strong> {{ result.optimalValue }}</p>
+      <p><strong>Répartition :</strong> {{ result.allocation.join(', ') }}</p>
+    </div>
 
   </main>
 

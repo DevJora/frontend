@@ -4,13 +4,14 @@ import {Router} from '@angular/router';
 import {finalize, Observable} from 'rxjs';
 import {UserDTO} from '../DTOs/userDTO';
 import {LoadingService} from './loading.service';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'https://backend-opti-ye2p.onrender.com';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router, private readonly loadingService: LoadingService) { }
 

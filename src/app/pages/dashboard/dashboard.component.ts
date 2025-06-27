@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit{
     }else {
       this.router.navigate(['/login']);
     }
+
   }
 
   getProfile(id: number){

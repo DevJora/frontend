@@ -4,6 +4,7 @@ import {finalize, Observable} from 'rxjs';
 import {Optima1Request, Optima1Response} from '../models/Optima1';
 import {LoadingService} from './loading.service';
 import {LogDTO} from '../DTOs/logDTO';
+import {environment} from '../../environments/environment';
 
 
 
@@ -11,7 +12,7 @@ import {LogDTO} from '../DTOs/logDTO';
   providedIn: 'root'
 })
 export class OptimaService {
-  private apiUrl = 'https://backend-opti-ye2p.onrender.com/optima/';
+  private apiUrl = `${environment.apiUrl}/optima/`;
 
   constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
@@ -48,17 +49,20 @@ export class OptimaService {
   }
   calculateOptimum7(payload: any): Observable<any> {
     this.loadingService.show();
-    return this.http.post(`${this.apiUrl}7`, payload);
+    return this.http.post(`${this.apiUrl}7`, payload).pipe(finalize(() => this.loadingService.hide()));
   }
   calculateOptimum8(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}8`, payload);
+    this.loadingService.show();
+    return this.http.post(`${this.apiUrl}8`, payload).pipe(finalize(() => this.loadingService.hide()));
   }
   calculateOptimum9(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}9`, payload);
+    this.loadingService.show();
+    return this.http.post(`${this.apiUrl}9`, payload).pipe(finalize(() => this.loadingService.hide()));
   }
   calculateOptimumX(payload: any): Observable<any> {
     console.log('test')
-    return this.http.post(`${this.apiUrl}X`, payload);
+    this.loadingService.show();
+    return this.http.post(`${this.apiUrl}X`, payload).pipe(finalize(() => this.loadingService.hide()));
   }
 
   verifyOptimaPermission( algo: string, algos: string[]){

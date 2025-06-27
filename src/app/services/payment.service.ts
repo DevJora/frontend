@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {from, switchMap} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
 
   STRIPE_PUBLIC_KEY = 'pk_test_51ROJ6IB6EgU63ps6xO3OP8zGsMekmwQflne4C3VNspmTmzAsgfgnONBe07rlsE0muYX7PGD7o7zAZ7JAmVY8wcZS00pUxz2J1j'; // clé publique
-  private apiUrl = 'https://backend-opti-ye2p.onrender.com/payment/';
+  private apiUrl = `${environment.apiUrl}/payment/`;
 
   async initiateStripePayment(planName: string, price: number, username: string, email: string, password: string, algos: string[]) {
     const stripe = await loadStripe(this.STRIPE_PUBLIC_KEY);

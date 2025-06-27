@@ -13,7 +13,6 @@ import {LoadingComponent} from '../../components/loading/loading.component';
   selector: 'app-profile',
   imports: [
     FormsModule,
-    RouterLink,
     UpperCasePipe,
     MatDialogModule,
     DatePipe,

@@ -33,7 +33,13 @@ import {NgxStripeModule, StripeService} from 'ngx-stripe';
 export class RegisterComponent {
   @ViewChild('stepper') stepper!: MatStepper;
   registerForm: FormGroup;
-  userData!: { username: string; email: string; password: string; subscription: string; algos: string[] }
+  userData!: {
+    username: string;
+    email: string;
+    password: string;
+    subscription: string;
+    algos: string[]
+  }
 
   private _formBuilder = inject(FormBuilder);
   strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -80,7 +86,7 @@ export class RegisterComponent {
 
   plans: SubscriptionPlan[] = [
     {
-      name: 'Fremium',
+      name: 'Freemium',
       price: 0,
       description: 'Testez gratuitement deux algorithmes une seule fois.',
       features: ['Accès à 2 algorithmes', 'Accès unique', 'Durée limitée']
@@ -129,8 +135,8 @@ export class RegisterComponent {
       return;
     }
 
-    console.log('Offre sélectionnée :', this.selectedPlan?.name);
-    console.log('Algorithmes choisis :', this.selectedAlgorithms);
+    //console.log('Offre sélectionnée :', this.selectedPlan?.name);
+    //console.log('Algorithmes choisis :', this.selectedAlgorithms);
 
 
     if (this.registerForm.valid) {
@@ -146,19 +152,20 @@ export class RegisterComponent {
     }
 
      if(this.selectedPlan.name !== 'Freemium') {
-       /*this.paymentService.initiateStripePayment(
+       this.paymentService.initiateStripePayment(
          this.selectedPlan.name,
          this.selectedPlan.price,
          this.registerForm.get('username')?.value,
          this.registerForm.get('email')?.value,
          this.registerForm.get('password')?.value,
-         this.selectedAlgorithms)*///.then(r => console.log(r));
+         this.selectedAlgorithms)//.then(r => console.log(r));
      }
 
+    /* this.userData.algos = this.selectedAlgorithms;
     this.userData.subscription = this.selectedPlan.name;
     this.authService.register(this.userData).subscribe(() => {
-      this.router.navigate(['/login']);  // Redirige vers la connexion après inscription
-    });
+      this.router.navigate(['/login']);  // Redirige vers la connexion après inscription*
+    });*/
   }
 
   addUserData() {

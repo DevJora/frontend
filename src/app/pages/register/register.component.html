@@ -20,7 +20,6 @@
             </div>
 
           </div>
-
           <!-- Champ Email -->
           <div class="mb-4">
             <label for="email" class="block text-gray-700 font-medium mb-2">Adresse e-mail</label>
@@ -31,7 +30,6 @@
               L'email est invalide.
             </div>
           </div>
-
           <!-- Champ Mot de passe -->
           <div class="mb-4">
             <label for="pwd" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
@@ -45,6 +43,7 @@
               </div>
             </div>
           </div>
+          <!-- Champ confirmation Mot de passe -->
           <div class="mb-4">
             <label for="confirmPwd" class="block text-gray-700 font-medium mb-2">Confirmez  le mot de passe</label>
             <input id="confirmPwd" type="password" formControlName="confirmPwd"
@@ -54,7 +53,6 @@
               Les mots de passe ne correspondent pas.
             </div>
           </div>
-
           <!-- Bouton d'inscription -->
           <button type="submit"
                   class="bg-blue-950 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
@@ -63,14 +61,14 @@
           </button>
         </form>
       </mat-step>
+
       <mat-step [stepControl]="secondFormGroup">
         <!-- src/app/pages/subscription/subscription.component.html -->
         <div class=" bg-gray-100 p-6">
           <h2 class="text-3xl font-bold text-center mb-8">Choisissez votre abonnement</h2>
-
           <form (ngSubmit)="subscribeInfo()" class="flex flex-col items-center">
             <ng-template matStepLabel>Abonnement</ng-template>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6  mb-6">
+            <div class="mt-12 grid gap-8 md:grid-cols-3">
               <label
                 *ngFor="let plan of plans"
                 class="cursor-pointer bg-white rounded-2xl shadow-md p-6 border-2 transition-all duration-200"
@@ -96,7 +94,6 @@
                 </ul>
               </label>
             </div>
-
             <div>
               <button
                 type="submit" (click)="stepper.next()"
@@ -135,8 +132,6 @@
           </div>
 
         </div>
-
-
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Confirmation</ng-template>

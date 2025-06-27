@@ -1,0 +1,44 @@
+<section class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <img width="150"  class="m-auto"  src="logo.png" alt="logo_optima">
+    <h2 class="text-2xl font-semibold mb-4">Contactez-nous</h2>
+    <form (ngSubmit)="onSubmit()" [formGroup]="contactForm" novalidate>
+      <div class="mb-4">
+        <label class="block text-gray-700">Objet du mail</label>
+        <input type="text" formControlName="object"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                    focus:border-indigo-500 focus:ring-indigo-500"/>
+        <div *ngIf="submitted && contactForm.controls['object'].invalid"
+             class="text-red-600 text-sm">L'objet du mail est requis.</div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Email</label>
+        <input type="email" formControlName="email"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                    focus:border-indigo-500 focus:ring-indigo-500"/>
+        <div *ngIf="submitted && contactForm.controls['email'].invalid"
+             class="text-red-600 text-sm">
+          {{ contactForm.controls['email'].errors?.['required'] ? 'L’email est requis.' : 'Email invalide.' }}
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Message</label>
+        <textarea formControlName="message" rows="4"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                       focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+        <div *ngIf="submitted && contactForm.controls['message'].invalid"
+             class="text-red-600 text-sm">Le message est requis.</div>
+      </div>
+      <button type="submit"
+              class="w-full py-2 px-4 bg-indigo-950 text-white rounded-lg
+                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-950">
+        Envoyer
+      </button>
+    </form>
+
+    <div *ngIf="success" class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+      Merci ! Votre message a été envoyé.
+    </div>
+  </div>
+
+</section>
