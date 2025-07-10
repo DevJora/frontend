@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# Étape 1 : Builder l'app Angular
+# Étape 1 : Build Angular
 FROM node:20 AS build
 WORKDIR /app
 
@@ -8,9 +8,9 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build --configuration production
+RUN npx ng build frontend --configuration production
 
-# Étape 2 : Servir avec Nginx
+# Étape 2 : Servir avec NGINX
 FROM nginx:alpine
-COPY --from=build /app/dist/* /usr/share/nginx/html
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
